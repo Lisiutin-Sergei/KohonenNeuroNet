@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KohonenNeuroNet.Utilities", "KohonenNeuroNet.Utilities\KohonenNeuroNet.Utilities.csproj", "{CB29F1EB-558C-448C-8BC6-73D087398227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KohonenNeuroNet.Tests", "KohonenNeuroNet.Tests\KohonenNeuroNet.Tests.csproj", "{FC28783B-C0B0-4F9C-A232-EA20D2BAE9E7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{57383278-0B96-475B-8D1E-0577A813D690} = {57383278-0B96-475B-8D1E-0577A813D690}
+		{C2E5479B-9E7C-41D7-9CE2-22F17FE42112} = {C2E5479B-9E7C-41D7-9CE2-22F17FE42112}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KohonenNeuroNet.Core", "KohonenNeuroNet.Core\KohonenNeuroNet.Core.csproj", "{57383278-0B96-475B-8D1E-0577A813D690}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB29F1EB-558C-448C-8BC6-73D087398227} = {CB29F1EB-558C-448C-8BC6-73D087398227}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KohonenNeuroNet.Interface", "KohonenNeuroNet.Interface\KohonenNeuroNet.Interface.csproj", "{C2E5479B-9E7C-41D7-9CE2-22F17FE42112}"
+	ProjectSection(ProjectDependencies) = postProject
+		{57383278-0B96-475B-8D1E-0577A813D690} = {57383278-0B96-475B-8D1E-0577A813D690}
+		{CB29F1EB-558C-448C-8BC6-73D087398227} = {CB29F1EB-558C-448C-8BC6-73D087398227}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB29F1EB-558C-448C-8BC6-73D087398227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB29F1EB-558C-448C-8BC6-73D087398227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB29F1EB-558C-448C-8BC6-73D087398227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB29F1EB-558C-448C-8BC6-73D087398227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC28783B-C0B0-4F9C-A232-EA20D2BAE9E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC28783B-C0B0-4F9C-A232-EA20D2BAE9E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC28783B-C0B0-4F9C-A232-EA20D2BAE9E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC28783B-C0B0-4F9C-A232-EA20D2BAE9E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57383278-0B96-475B-8D1E-0577A813D690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57383278-0B96-475B-8D1E-0577A813D690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57383278-0B96-475B-8D1E-0577A813D690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57383278-0B96-475B-8D1E-0577A813D690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2E5479B-9E7C-41D7-9CE2-22F17FE42112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2E5479B-9E7C-41D7-9CE2-22F17FE42112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2E5479B-9E7C-41D7-9CE2-22F17FE42112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2E5479B-9E7C-41D7-9CE2-22F17FE42112}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
