@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KohonenNeuroNet.Core.NeuralNetwork
 {
@@ -11,17 +8,42 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
     /// </summary>
     public class Neuron
     {
-        public int number { get; set; }
-        public List<double> weights { get; set; }
+        /// <summary>
+        /// Порядковый номер нейрона.
+        /// </summary>
+        public int Number { get; set; }
 
-        public Neuron(int number_, int inputs_)
+        /// <summary>
+        /// Веса нейрона - синапсы, связывающие нейрон с входным слоем.
+        /// </summary>
+        public List<double> Weights { get; set; } = new List<double>();
+
+        /// <summary>
+        /// Рандомайзер.
+        /// </summary>
+        private readonly Random _random = new Random();
+
+        /// <summary>
+        /// Конструктор нейрона.
+        /// </summary>
+        /// <param name="neuronNumber">Порядковый номер нейрона.</param>
+        /// <param name="inputsCount">Количество элементов входного слоя.</param>
+        public Neuron(int neuronNumber, int inputsCount)
         {
-            weights = new List<double>();
-            number = number_;
-            Random rand = new Random();
-            for (int i = 0; i < inputs_; i++)
+            Number = neuronNumber;
+            SetRandomWeights(inputsCount);
+        }
+
+        /// <summary>
+        /// Задать веса новыми рандомными значениями от 0 до 1.
+        /// </summary>
+        /// <param name="inputsCount">Количество элементов входного слоя.</param>
+        public void SetRandomWeights(int inputsCount)
+        {
+            Weights.Clear();
+            for (int i = 0; i < inputsCount; i++)
             {
-                weights.Add(rand.NextDouble());
+                Weights.Add(_random.NextDouble());
             }
         }
     }

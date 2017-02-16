@@ -11,108 +11,139 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
     /// </summary>
     public class Network
     {
-        public int Inputs { get; set; }
-        public List<Neuron> Neurons { get; set; }
+        /// <summary>
+        /// Список нейронов сети.
+        /// </summary>
+        public List<Neuron> Neurons { get; set; } = new List<Neuron>();
 
-        public Network(int inputs_, int neurons_)
+        /// <summary>
+        /// Конструктор нейронной сети.
+        /// </summary>
+        /// <param name="inputsCount">Количество элементов входного слоя.</param>
+        /// <param name="neuronsCount">Количество нейронов сети/кластеров.</param>
+        public Network(int inputsCount, int neuronsCount)
         {
-            Neurons = new List<Neuron>();
-            Inputs = inputs_;
-            for (int i = 0; i < neurons_; i++)
+            for (int i = 0; i < neuronsCount; i++)
             {
-                Neuron neuron = new Neuron(i, inputs_);
+                Neuron neuron = new Neuron(i, inputsCount);
                 Neurons.Add(neuron);
             }
         }
 
-        private int Test(double[] InputVector)
+        /// <summary>
+        /// Тестирование нейронной сети.
+        /// </summary>
+        /// <param name="input">Входной вектор для тестирования.</param>
+        /// <returns>Нейрон-победитель.</returns>
+        private int Test(double[] input)
         {
-            double MinDistance = EuclideanDistance(Neurons[0], InputVector);
-            int BMUIndex = 0;
+            var neuronWinner = GetNeuronWinner(input);
+            return neuronWinner.Number;
+        }
+
+        /// <summary>
+        /// Обучить нейронную сеть.
+        /// </summary>
+        /// <param name="inputVectors">Набор входных данных для обучения.</param>
+        private void Study(double[][] inputVectors)
+        {
+            for (int iteration = 0; iteration < inputVectors.Length; iteration++)
+            {
+                var error = StudyInputVector(inputVectors[iteration], iteration);
+            }
+        }
+
+        /// <summary>
+        /// Обучить входной вектор (провести итерацию обучения).
+        /// </summary>
+        /// <param name="input">Входной вектор.</param>
+        /// <param name="iteration">Номер итерации.</param>
+        /// <returns>Ошибка обучения.</returns>
+        public double StudyInputVector(double[] input, int iteration)
+        {
+            var neuronWinner = GetNeuronWinner(input);
+
+            var learningRate = GetLearningRate(k);
+            StudyNeuron(neuronWinner, input, learningRate);
+
+            double error = GetEuclideanDistance(neuronWinner.Weights, input);
+            return error;
+        }
+
+        /// <summary>
+        /// Получить нейрон-победитель.
+        /// </summary>
+        /// <param name="input">Входной вектор.</param>
+        /// <returns>Нейрон-победитель для входного вектора.</returns>
+        private Neuron GetNeuronWinner(double[] input)
+        {
+            double minDistance = GetEuclideanDistance(Neurons[0].Weights, input);
+            Neuron neuronWinner = Neurons[0];
             for (int i = 1; i < Neurons.Count; i++)
             {
-                double tmp_ED = EuclideanDistance(Neurons[i], InputVector);
-                if (tmp_ED < MinDistance)
+                double currentDistance = GetEuclideanDistance(Neurons[i].Weights, input);
+                if (currentDistance < minDistance)
                 {
-                    BMUIndex = i;
-                    MinDistance = tmp_ED;
+                    minDistance = currentDistance;
+                    neuronWinner = Neurons[i];
                 }
             }
-            return BMUIndex;
+            return neuronWinner;
         }
 
-        private void Study(double[][] InputVector)
+        /// <summary>
+        /// Обучить нейрон-победитель.
+        /// </summary>
+        /// <param name="neuronWinner">Нейрон-победитель.</param>
+        /// <param name="input">Входной вектор.</param>
+        /// <param name="learningRate">Скорость обучения.</param>
+        private void StudyNeuron(Neuron neuronWinner, double[] input, double learningRate)
         {
-            int c;
-            for (int k = 0; k < 6; k++) // цикл, в котором предъявляем сети входные вектора - InputVector
+            for (int i = 0; i < neuronWinner.Weights.Count(); i++)
             {
-                double MinDistance = EuclideanDistance(Neurons[0], InputVector[k]);
-                int BMUIndex = 0;
-                for (int i = 1; i < Neurons.Count; i++)
-                {
-                    double tmp_ED = EuclideanDistance(Neurons[i], InputVector[k]); // Находим Евклидово расстояние между i-ым нейроном и k-ым входным  вектором
-                    if (tmp_ED < MinDistance) // Eсли Евклидово расстояние минимально, то это нейрон-победитель
-                    {
-                        BMUIndex = i; // Индекс нейрона-победителя
-                        MinDistance = tmp_ED;
-                    }
-                }
-
-                for (int i = 0; i < Neurons.Count; i++)
-                {
-                    for (int g = 0; g < InputVector[k].Length; g++)
-                    {
-                        double hfunc = hc(k, Neurons[BMUIndex].weights[g], Neurons[i].weights[g]);
-                        double normfunc = normLearningRate(k);
-                        //neurons[i].weights[g] = neurons[i].weights[g] + hfunc * normfunc * (InputVector[k][g] - neurons[i].weights[g]);
-                        Neurons[i].weights[g] = Neurons[i].weights[g] + hfunc * normfunc * (InputVector[i][g] - Neurons[i].weights[g]); // Вроде так работает
-                        if (i > 0 && g > 282)
-                            c = 0;
-                    }
-                }
-                double Error = EuclideanDistance(Neurons[BMUIndex], InputVector[k]);
-                for (int y = 0; y < 6; y++)
-                {
-                    //textBox1.Text += "Евклидово расстояние " + y + "-го нейрона между " + y + "-м входным вектором на " + k + "-ой итерации: " + EuclideanDistance(neurons[y], InputVector[y]) + Environment.NewLine;
-                }
-                //textBox1.Text += Environment.NewLine;
+                neuronWinner.Weights[i] = neuronWinner.Weights[i] + learningRate * (input[i] - neuronWinner.Weights[i]);
             }
         }
 
-        private double hc(int k, double winnerCoordinate, double Coordinate)
+        /// <summary>
+        /// Функция соседства.
+        /// </summary>
+        /// <param name="k"></param>
+        /// <param name="winnerCoordinate"></param>
+        /// <param name="coordinate"></param>
+        /// <returns></returns>
+        private double hc(int k, double winnerCoordinate, double coordinate)
         {
-            double dist = Distance(winnerCoordinate, Coordinate);
-            //double s = sigma(k);
-            return Math.Exp(-dist / 2 * Math.Pow(sigma(k), 2));
+            double dist = Math.Abs(winnerCoordinate - coordinate);
+            double s = 1 * Math.Exp(-k / 5);
+            return Math.Exp(-dist * dist / (2 * Math.Pow(s, 2)));
         }
 
-        private double sigma(int k)
-        {
-            //return -0.01 * k + 2;
-            return 1 * Math.Exp(-k / 5);
-
-            //double nf = 1000 / Math.Log(2025);
-            //return Math.Exp(-k / nf) * 2025;
-        }
-
-        private double normLearningRate(int k)
+        /// <summary>
+        /// Получить скорость обучения на текущем цикле обучения.
+        /// </summary>
+        /// <param name="k">Цикл обучения.</param>
+        /// <returns>Скорость обучения.</returns>
+        private double GetLearningRate(int k)
         {
             return 0.1 * Math.Exp(-k / 1000);
         }
 
-        private double EuclideanDistance(Neuron neuron, double[] InputVector)
+        /// <summary>
+        /// Найти евклидово расстояние от входного вектора до центра кластера.
+        /// </summary>
+        /// <param name="neuronWeights">Веса нейрона, который представляет кластер.</param>
+        /// <param name="inputVector">Входной вектор.</param>
+        /// <returns>Евклидово расстояние от входного вектора до центра кластера.</returns>
+        private double GetEuclideanDistance(IEnumerable<double> neuronWeights, IEnumerable<double> inputVector)
         {
-            double Sum = 0;
-            for (int i = 0; i < InputVector.Length; i++)
+            double sum = 0;
+            for (int i = 0; i < inputVector.Count(); i++)
             {
-                Sum += Math.Pow((InputVector[i] - neuron.weights[i]), 2);
+                sum += Math.Pow((inputVector.ElementAt(i) - neuronWeights.ElementAt(i)), 2);
             }
-            return Math.Sqrt(Sum);
+            return Math.Sqrt(sum);
         }
 
-        private double Distance(double winnerCoordinate, double Coordinate)
-        {
-            return Math.Sqrt(Math.Pow((winnerCoordinate - Coordinate), 2));
-        }
     }
 }

@@ -30,8 +30,8 @@ namespace KohonenNeuroNet.Tests
                     dataTable.Columns.Add(column);
 
                     // Заполним табличку
-                    decimal min = 100;
-                    decimal max = -100;
+                    double min = 100;
+                    double max = -100;
                     for (int i = 0; i <= 100; i++)
                     {
                         var row = dataTable.NewRow();
@@ -42,7 +42,7 @@ namespace KohonenNeuroNet.Tests
                         else
                         { 
                             // от -100 до 100
-                            var randomDecimal = ((decimal)random.NextDouble() - 0.5M) * 200;
+                            var randomDecimal = (random.NextDouble() - 0.5) * 200;
                             row[0] = randomDecimal;
                             if (randomDecimal < min)
                             {
@@ -56,8 +56,8 @@ namespace KohonenNeuroNet.Tests
                         dataTable.Rows.Add(row);
                     }
 
-                    Assert.AreEqual(min, dataTable.Min<decimal>(column));
-                    Assert.AreEqual(max, dataTable.Max<decimal>(column));
+                    Assert.AreEqual(min, dataTable.Min<double>(column));
+                    Assert.AreEqual(max, dataTable.Max<double>(column));
                 }
             }
         }

@@ -14,12 +14,12 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// <summary>
         /// Максимальное значение атрибута.
         /// </summary>
-        public decimal Max { get; set; }
+        public double Max { get; set; }
 
         /// <summary>
         /// Минимальное значение атрибута.
         /// </summary>
-        public decimal Min { get; set; }
+        public double Min { get; set; }
 
         /// <summary>
         /// Название атрибута.

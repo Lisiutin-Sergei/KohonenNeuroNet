@@ -19,12 +19,12 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// <summary>
         /// Значение атрибута.
         /// </summary>
-        public decimal Value { get; set; }
+        public double Value { get; set; }
 
         /// <summary>
         /// Нормализованное значение от 0 до 1.
         /// </summary>
-        public decimal NormalizedValue
+        public double NormalizedValue
         {
             get
             {
@@ -34,7 +34,7 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
                 }
                 if (Attribute.Max == Attribute.Min)
                 {
-                    return 0M;
+                    return 0;
                 }
 
                 return Value / (Attribute.Max - Attribute.Min);

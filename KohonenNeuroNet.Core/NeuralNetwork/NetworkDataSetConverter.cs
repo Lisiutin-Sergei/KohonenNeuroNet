@@ -62,8 +62,8 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
                 {
                     OrderNumber = i - firstAttributeColumnIndex,
                     Name = data.Rows[0][i]?.ToString() ?? string.Empty,
-                    Min = data.Min<decimal>(column),
-                    Max = data.Max<decimal>(column)
+                    Min = data.Min<double>(column),
+                    Max = data.Max<double>(column)
                 };
                 attributes.Add(attribute);
             }
@@ -91,7 +91,7 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
             int rowsToSkip = 1;
             int columnWithEntityName = 0;
             int firstAttributeColumnIndex = columnWithEntityName + 1;
-            decimal temp;
+            double temp;
             for (int r = rowsToSkip; r < data.Rows.Count; r++)
             {
                 var row = data.Rows[r];
@@ -105,11 +105,11 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
                 for (int c = firstAttributeColumnIndex; c < data.Columns.Count; c++)
                 {
                     var cell = data.Rows[r][c];
-                    var isSuccessfullParse = decimal.TryParse(cell?.ToString(), out temp);
+                    var isSuccessfullParse = double.TryParse(cell?.ToString(), out temp);
                     var attributeValue = new NetworkEntityAttributeValue
                     {
                         Attribute = attributes.Single(a => a.OrderNumber == c - firstAttributeColumnIndex),
-                        Value = isSuccessfullParse ? temp : 0M
+                        Value = isSuccessfullParse ? temp : 0
                     };
                     entity.AttributeValues.Add(attributeValue);
                 }
