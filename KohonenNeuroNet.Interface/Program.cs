@@ -1,12 +1,11 @@
-﻿using KohonenNeuroNet.Core.NeuralNetwork;
+﻿using KohonenNeuroNet.Core.NetworkData;
+using KohonenNeuroNet.Core.NeuralNetwork;
 using KohonenNeuroNet.Utilities;
 using KohonenNeuroNet.Utilities.Implementation.Reader;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KohonenNeuroNet.Interface
@@ -38,9 +37,10 @@ namespace KohonenNeuroNet.Interface
             var trainingDataSet = GetDataSet("TrainingData.xlsx");
             var testingDataSet = GetDataSet("TestingData.xlsx");
 
-            var classesCount = 4;
-            var network = new Network();
-            network.Study(trainingDataSet, classesCount);
+            var epochCount = 6;
+            var classesCount = 10;
+            var network = new ClassicKohonenNetwork();
+            network.Study(trainingDataSet, classesCount, epochCount);
 
             // Сформировать пустые кластеры
             var classes = new List<NetworkClaster>();
@@ -50,7 +50,7 @@ namespace KohonenNeuroNet.Interface
             }
 
             // Раскидать данные по кластерам
-            foreach (var data in trainingDataSet.Entities)
+            foreach (var data in testingDataSet.Entities)
             {
                 var result = network.GetNeuronWinner(data).Number;
                 classes.First(c => c.Number == result).Entities.Add(data);

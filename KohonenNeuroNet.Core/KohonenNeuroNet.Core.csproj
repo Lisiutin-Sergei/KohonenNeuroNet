@@ -40,15 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NeuralNetwork\NetworkAttribute.cs" />
-    <Compile Include="NeuralNetwork\NetworkClaster.cs" />
-    <Compile Include="NeuralNetwork\NetworkDataEntity.cs" />
-    <Compile Include="NeuralNetwork\NetworkDataSet.cs" />
-    <Compile Include="NeuralNetwork\NetworkEntityAttributeValue.cs" />
-    <Compile Include="NeuralNetwork\Network.cs" />
-    <Compile Include="NeuralNetwork\NetworkDataSetConverter.cs" />
+    <Compile Include="NetworkData\NetworkAttribute.cs" />
+    <Compile Include="NetworkData\NetworkClaster.cs" />
+    <Compile Include="NetworkData\NetworkDataEntity.cs" />
+    <Compile Include="NetworkData\NetworkDataSet.cs" />
+    <Compile Include="NetworkData\NetworkEntityAttributeValue.cs" />
+    <Compile Include="NeuralNetwork\AbstractNetwork.cs" />
+    <Compile Include="NeuralNetwork\ClassicKohonenNetwork.cs" />
+    <Compile Include="NetworkData\NetworkDataSetConverter.cs" />
     <Compile Include="NeuralNetwork\Neuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\NormalizationTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KohonenNeuroNet.Utilities\KohonenNeuroNet.Utilities.csproj">

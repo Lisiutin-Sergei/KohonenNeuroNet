@@ -1,4 +1,4 @@
-﻿using KohonenNeuroNet.Core.NeuralNetwork;
+﻿using KohonenNeuroNet.Core.NetworkData;
 using KohonenNeuroNet.Utilities;
 using KohonenNeuroNet.Utilities.Implementation.Reader;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

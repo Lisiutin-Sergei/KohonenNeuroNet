@@ -1,12 +1,9 @@
 ﻿using KohonenNeuroNet.Utilities.ExtensionMethods;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace KohonenNeuroNet.Core.NeuralNetwork
+namespace KohonenNeuroNet.Core.NetworkData
 {
     /// <summary>
     /// Конвертер, преобразовывающий даннные в формат, с которым работает нейронная сеть.
@@ -95,6 +92,11 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
             for (int r = rowsToSkip; r < data.Rows.Count; r++)
             {
                 var row = data.Rows[r];
+                if (string.IsNullOrWhiteSpace(row[0]?.ToString()))
+                {
+                    break;
+                }
+
                 var entity = new NetworkDataEntity
                 {
                     OrderNumber = r - rowsToSkip,
