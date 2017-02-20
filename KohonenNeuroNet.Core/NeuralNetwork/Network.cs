@@ -15,13 +15,13 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// Список нейронов сети.
         /// </summary>
         public List<Neuron> Neurons { get; set; } = new List<Neuron>();
-
+        
         /// <summary>
-        /// Конструктор нейронной сети.
+        /// Сгенерировать нейроны сети.
         /// </summary>
-        /// <param name="inputsCount">Количество элементов входного слоя.</param>
-        /// <param name="neuronsCount">Количество нейронов сети/кластеров.</param>
-        public Network(int inputsCount, int neuronsCount)
+        /// <param name="inputsCount">Количество параметров входящего вектора.</param>
+        /// <param name="neuronsCount">Количество нейронов.</param>
+        public void GenerateNeurons(int inputsCount, int neuronsCount)
         {
             for (int i = 0; i < neuronsCount; i++)
             {
@@ -31,57 +31,51 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         }
 
         /// <summary>
-        /// Тестирование нейронной сети.
-        /// </summary>
-        /// <param name="input">Входной вектор для тестирования.</param>
-        /// <returns>Нейрон-победитель.</returns>
-        private int Test(double[] input)
-        {
-            var neuronWinner = GetNeuronWinner(input);
-            return neuronWinner.Number;
-        }
-
-        /// <summary>
         /// Обучить нейронную сеть.
         /// </summary>
-        /// <param name="inputVectors">Набор входных данных для обучения.</param>
-        private void Study(double[][] inputVectors)
+        /// <param name="inputDataSet">Набор входных данных для обучения.</param>
+        /// <param name="neuronsCount">Количество нейронов.</param>
+        public void Study(NetworkDataSet inputDataSet, int neuronsCount)
         {
-            for (int iteration = 0; iteration < inputVectors.Length; iteration++)
+            GenerateNeurons(inputDataSet?.Attributes?.Count ?? 0, neuronsCount);
+
+            for (int iteration = 0; iteration < inputDataSet.Entities.Count; iteration++)
             {
-                var error = StudyInputVector(inputVectors[iteration], iteration);
+                var error = StudyInputEntity(inputDataSet.Entities[iteration], iteration);
             }
         }
 
         /// <summary>
         /// Обучить входной вектор (провести итерацию обучения).
         /// </summary>
-        /// <param name="input">Входной вектор.</param>
+        /// <param name="inputEntity">Входной вектор.</param>
         /// <param name="iteration">Номер итерации.</param>
         /// <returns>Ошибка обучения.</returns>
-        public double StudyInputVector(double[] input, int iteration)
+        public double StudyInputEntity(NetworkDataEntity inputEntity, int iteration)
         {
-            var neuronWinner = GetNeuronWinner(input);
+            var neuronWinner = GetNeuronWinner(inputEntity);
 
-            var learningRate = GetLearningRate(k);
-            StudyNeuron(neuronWinner, input, learningRate);
+            var learningRate = GetLearningRate(iteration);
+            StudyNeuron(neuronWinner, inputEntity, learningRate);
 
-            double error = GetEuclideanDistance(neuronWinner.Weights, input);
+            var attributeValues = inputEntity.AttributeValues.Select(v => v.NormalizedValue);
+            double error = GetEuclideanDistance(neuronWinner.Weights, attributeValues);
             return error;
         }
 
         /// <summary>
         /// Получить нейрон-победитель.
         /// </summary>
-        /// <param name="input">Входной вектор.</param>
+        /// <param name="inputEntity">Входной вектор.</param>
         /// <returns>Нейрон-победитель для входного вектора.</returns>
-        private Neuron GetNeuronWinner(double[] input)
+        public Neuron GetNeuronWinner(NetworkDataEntity inputEntity)
         {
-            double minDistance = GetEuclideanDistance(Neurons[0].Weights, input);
+            var attributeValues = inputEntity.AttributeValues.Select(v => v.NormalizedValue);
+            double minDistance = GetEuclideanDistance(Neurons[0].Weights, attributeValues);
             Neuron neuronWinner = Neurons[0];
             for (int i = 1; i < Neurons.Count; i++)
             {
-                double currentDistance = GetEuclideanDistance(Neurons[i].Weights, input);
+                double currentDistance = GetEuclideanDistance(Neurons[i].Weights, attributeValues);
                 if (currentDistance < minDistance)
                 {
                     minDistance = currentDistance;
@@ -95,13 +89,14 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// Обучить нейрон-победитель.
         /// </summary>
         /// <param name="neuronWinner">Нейрон-победитель.</param>
-        /// <param name="input">Входной вектор.</param>
+        /// <param name="inputEntity">Входной вектор.</param>
         /// <param name="learningRate">Скорость обучения.</param>
-        private void StudyNeuron(Neuron neuronWinner, double[] input, double learningRate)
+        public void StudyNeuron(Neuron neuronWinner, NetworkDataEntity inputEntity, double learningRate)
         {
             for (int i = 0; i < neuronWinner.Weights.Count(); i++)
             {
-                neuronWinner.Weights[i] = neuronWinner.Weights[i] + learningRate * (input[i] - neuronWinner.Weights[i]);
+                neuronWinner.Weights[i] = neuronWinner.Weights[i] + 
+                    learningRate * (inputEntity.AttributeValues[i].NormalizedValue - neuronWinner.Weights[i]);
             }
         }
 
@@ -124,7 +119,7 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// </summary>
         /// <param name="k">Цикл обучения.</param>
         /// <returns>Скорость обучения.</returns>
-        private double GetLearningRate(int k)
+        public double GetLearningRate(int k)
         {
             return 0.1 * Math.Exp(-k / 1000);
         }
@@ -135,7 +130,7 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// <param name="neuronWeights">Веса нейрона, который представляет кластер.</param>
         /// <param name="inputVector">Входной вектор.</param>
         /// <returns>Евклидово расстояние от входного вектора до центра кластера.</returns>
-        private double GetEuclideanDistance(IEnumerable<double> neuronWeights, IEnumerable<double> inputVector)
+        public double GetEuclideanDistance(IEnumerable<double> neuronWeights, IEnumerable<double> inputVector)
         {
             double sum = 0;
             for (int i = 0; i < inputVector.Count(); i++)

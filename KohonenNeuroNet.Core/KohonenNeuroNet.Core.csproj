@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NeuralNetwork\NetworkAttribute.cs" />
+    <Compile Include="NeuralNetwork\NetworkClaster.cs" />
     <Compile Include="NeuralNetwork\NetworkDataEntity.cs" />
     <Compile Include="NeuralNetwork\NetworkDataSet.cs" />
     <Compile Include="NeuralNetwork\NetworkEntityAttributeValue.cs" />

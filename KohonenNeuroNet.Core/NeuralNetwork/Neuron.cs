@@ -27,7 +27,7 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// Конструктор нейрона.
         /// </summary>
         /// <param name="neuronNumber">Порядковый номер нейрона.</param>
-        /// <param name="inputsCount">Количество элементов входного слоя.</param>
+        /// <param name="inputsCount">Количество параметров входящего вектора.</param>
         public Neuron(int neuronNumber, int inputsCount)
         {
             Number = neuronNumber;
@@ -37,7 +37,7 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// <summary>
         /// Задать веса новыми рандомными значениями от 0 до 1.
         /// </summary>
-        /// <param name="inputsCount">Количество элементов входного слоя.</param>
+        /// <param name="inputsCount">Количество параметров входящего вектора.</param>
         public void SetRandomWeights(int inputsCount)
         {
             Weights.Clear();

@@ -14,24 +14,51 @@ namespace KohonenNeuroNet.Interface
     static class Program
     {
         /// <summary>
+        /// Получить набор входных данных для сети из файла.
+        /// </summary>
+        /// <param name="fileName">Имя файла.</param>
+        /// <returns>Набор входных данных.</returns>
+        public static NetworkDataSet GetDataSet(string fileName)
+        {
+            var reader = new ExcelReader();
+            var excelFileName = fileName;
+            var excelFilePath = Path.Combine(CommonUtils.ResourcesDirectory, excelFileName);
+            var dataTable = reader.ReadFromFile(excelFilePath);
+            var networkConverter = new NetworkDataSetConverter();
+            var networkDataSet = networkConverter.Convert(dataTable);
+            return networkDataSet;
+        }
+
+        /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            var trainingDataSet = GetDataSet("TrainingData.xlsx");
+            var testingDataSet = GetDataSet("TestingData.xlsx");
+
+            var classesCount = 4;
+            var network = new Network();
+            network.Study(trainingDataSet, classesCount);
+
+            // Сформировать пустые кластеры
+            var classes = new List<NetworkClaster>();
+            for(int i = 0; i < classesCount; i++)
+            {
+                classes.Add(new NetworkClaster() { Number = i });
+            }
+
+            // Раскидать данные по кластерам
+            foreach (var data in trainingDataSet.Entities)
+            {
+                var result = network.GetNeuronWinner(data).Number;
+                classes.First(c => c.Number == result).Entities.Add(data);
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-
-            var reader = new ExcelReader();
-            var excelFileName = "Data.xlsx";
-            var excelFilePath = Path.Combine(CommonUtils.ResourcesDirectory, excelFileName);
-
-            var dataTable = reader.ReadFromFile(excelFilePath);
-
-            var networkConverter = new NetworkDataSetConverter();
-            var networkDataSet = networkConverter.Convert(dataTable);
-
         }
     }
 }
