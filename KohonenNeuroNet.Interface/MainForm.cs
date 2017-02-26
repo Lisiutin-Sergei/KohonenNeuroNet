@@ -89,7 +89,7 @@ namespace KohonenNeuroNet.Interface
         /// <param name="e"></param>
         private void Btn_LearnNetwork_Click(object sender, EventArgs e)
         {
-            var epochCount = 50;
+            var epochCount = 6;
             int clastersCount = (int)tbClastersCount.Value;
             if (clastersCount < 1)
             {
