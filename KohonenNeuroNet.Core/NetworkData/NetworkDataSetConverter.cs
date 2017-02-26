@@ -27,7 +27,7 @@ namespace KohonenNeuroNet.Core.NetworkData
             var attributes = GetAttributes(data);
 
             // Список элементов
-            var entities = GetEntities(data);
+            var entities = GetEntities(data, attributes);
 
             return new NetworkDataSet
             {
@@ -72,18 +72,16 @@ namespace KohonenNeuroNet.Core.NetworkData
         /// Получить список элементов набора данных.
         /// </summary>
         /// <param name="data">Набор данных.</param>
+        /// <param name="attributes">Список атрибутов набора данных.</param>
         /// <returns>Список элементов набора данных.</returns>
-        public List<NetworkDataEntity> GetEntities(DataTable data)
+        public List<NetworkDataEntity> GetEntities(DataTable data, List<NetworkAttribute> attributes)
         {
             var entities = new List<NetworkDataEntity>();
             if (data == null || data.Rows.Count == 0 || data.Columns.Count == 0)
             {
                 return entities;
             }
-
-            // Список атрибутов.
-            var attributes = GetAttributes(data);
-
+            
             // Пропускаем 1 строку - заголовок таблицы 
             int rowsToSkip = 1;
             int columnWithEntityName = 0;

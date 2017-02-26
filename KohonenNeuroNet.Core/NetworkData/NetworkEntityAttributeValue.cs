@@ -1,4 +1,4 @@
-﻿using KohonenNeuroNet.Core.Types;
+﻿using KohonenNeuroNet.Core.NormalizationType;
 using System;
 
 namespace KohonenNeuroNet.Core.NetworkData
@@ -23,21 +23,9 @@ namespace KohonenNeuroNet.Core.NetworkData
         /// </summary>
         /// <param name="normalizationType">Тип нормализации</param>
         /// <returns></returns>
-        public double GetNormalizedValue(NormalizationTypes normalizationType)
+        public double GetNormalizedValue(INormalizatiionType normalizationType)
         {
-            if (Attribute == null)
-            {
-                throw new Exception("Не определен атрибут данных");
-            }
-            switch (normalizationType)
-            {
-                case NormalizationTypes.Linear_0_1:
-                    return Attribute.Max == Attribute.Min ? 0 : Math.Abs(Value - Attribute.Min) / Math.Abs(Attribute.Max - Attribute.Min);
-                case NormalizationTypes.Linear__1_1:
-                    return Attribute.Max == Attribute.Min ? -1 : 2 * Math.Abs(Value - Attribute.Min) / Math.Abs(Attribute.Max - Attribute.Min) - 1;
-                default:
-                    throw new Exception("Некорректно задан тип нормализации");
-            }
+            return normalizationType.GetAttributeValue(this);
         }
     }
 }

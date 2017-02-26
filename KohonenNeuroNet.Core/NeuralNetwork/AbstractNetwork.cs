@@ -1,5 +1,5 @@
 ﻿using KohonenNeuroNet.Core.NetworkData;
-using KohonenNeuroNet.Core.Types;
+using KohonenNeuroNet.Core.NormalizationType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// <summary>
         /// Тип нормализации.
         /// </summary>
-        public abstract NormalizationTypes NormalizationType { get; }
+        public abstract INormalizatiionType NormalizationType { get; }
 
         /// <summary>
         /// Список нейронов сети.

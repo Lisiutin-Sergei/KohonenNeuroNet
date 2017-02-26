@@ -1,5 +1,5 @@
 ﻿using KohonenNeuroNet.Core.NetworkData;
-using KohonenNeuroNet.Core.Types;
+using KohonenNeuroNet.Core.NormalizationType;
 using System;
 using System.Linq;
 
@@ -13,13 +13,7 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// <summary>
         /// Тип нормализации.
         /// </summary>
-        public override NormalizationTypes NormalizationType
-        {
-            get
-            {
-                return NormalizationTypes.Linear_0_1;
-            }
-        }
+        public override INormalizatiionType NormalizationType => new LinearNormalizationType_0_1();
 
         /// <summary>
         /// Обучить входной вектор (провести итерацию обучения).

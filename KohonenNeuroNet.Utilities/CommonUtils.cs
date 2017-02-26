@@ -12,11 +12,11 @@ namespace KohonenNeuroNet.Utilities
         /// <summary>
         /// Название папки с ресурсами.
         /// </summary>
-        public static readonly string ResourcesFolder = "KohonenNeuroNet.Resources";
+        public static readonly string ResourcesFolderName = "KohonenNeuroNet.Resources";
 
         /// <summary>
         /// Абсолютный путь к папке с ресурсами.
         /// </summary>
-        public static readonly string ResourcesDirectory = Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName, ResourcesFolder);
+        public static readonly string ResourcesDirectory = Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName, ResourcesFolderName);
     }
 }
