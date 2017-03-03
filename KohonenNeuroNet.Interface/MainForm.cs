@@ -89,11 +89,23 @@ namespace KohonenNeuroNet.Interface
         /// <param name="e"></param>
         private void Btn_LearnNetwork_Click(object sender, EventArgs e)
         {
-            var epochCount = 6;
             int clastersCount = (int)tbClastersCount.Value;
+            int epochCount = (int)tbEpochCount.Value;
             if (clastersCount < 1)
             {
                 MessageBox.Show("Количество кластеров должно быть положительным", "Ошибка");
+                return;
+            }
+            if (epochCount < 1)
+            {
+                MessageBox.Show("Количество эпох обучения должно быть положительным", "Ошибка");
+                return;
+            }
+            if (_learningDataSet == null || _learningDataSet.Entities == null || _learningDataSet.Entities.Count == 0 || 
+                _learningDataSet.Attributes == null || _learningDataSet.Attributes.Count == 0)
+            {
+                MessageBox.Show("Выборка для обучения должна содержать хотя бы 1 сущность хотя бы с 1 параметром", "Ошибка");
+                return;
             }
 
             using (new CursorHandler())
@@ -108,7 +120,7 @@ namespace KohonenNeuroNet.Interface
                     Clasters.Add(new NetworkClaster() { Number = i });
                 }
 
-                tabPanelMain.SelectedIndex = 1;
+                tabPanelMain.SelectedIndex = 2;
             }
         }
 
@@ -145,6 +157,13 @@ namespace KohonenNeuroNet.Interface
         /// <param name="e"></param>
         private void Btn_Test_Click(object sender, EventArgs e)
         {
+            if (_testingDataSet == null || _testingDataSet.Entities == null || _testingDataSet.Entities.Count == 0 ||
+                _testingDataSet.Attributes == null || _testingDataSet.Attributes.Count == 0)
+            {
+                MessageBox.Show("Выборка для кластеризации должна содержать хотя бы 1 сущность хотя бы с 1 параметром", "Ошибка");
+                return;
+            }
+            
             using (new CursorHandler())
             {
                 foreach (var data in _testingDataSet.Entities)
@@ -154,7 +173,7 @@ namespace KohonenNeuroNet.Interface
                 }
 
                 _interfaceMediator.DrawClasters(Clasters, dgvClasters);
-                tabPanelMain.SelectedIndex = 2;
+                tabPanelMain.SelectedIndex = 3;
             }
         }
 
