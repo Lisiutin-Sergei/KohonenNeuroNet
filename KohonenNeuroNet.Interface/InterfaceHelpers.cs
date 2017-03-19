@@ -1,4 +1,5 @@
 ﻿using KohonenNeuroNet.Core.NetworkData;
+using KohonenNeuroNet.Core.NeuralNetwork;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +16,36 @@ namespace KohonenNeuroNet.Interface
     public class InterfaceMediator
     {
         /// <summary>
+        /// Отобразить веса сети в DataGridView.
+        /// </summary>
+        /// <param name="network">Сеть.</param>
+        /// <param name="attributes">Атрибуты сети.</param>
+        /// <param name="grid">Таблица.</param>
+        public void DrawNetworkWeights(AbstractNetwork network, List<NetworkAttribute> attributes, DataGridView grid)
+        {
+            var weightsPrecision = 5;
+            grid.Rows.Clear();
+            grid.Columns.Clear();
+            if (network == null || !(network.Neurons?.Any() ?? false))
+            {
+                return;
+            }
+
+            grid.Columns.Add("Вход/Нейрон", "Вход/Нейрон");
+            network.Neurons
+                .OrderBy(n => n.Number)
+                .ToList()
+                .ForEach(n => grid.Columns.Add(n.Number.ToString(), n.Number.ToString()));
+
+            foreach(var attribute in attributes.OrderBy(a => a.OrderNumber))
+            {
+                var row = new List<object> { $"{attribute.OrderNumber}) {attribute.Name}" };
+                row.AddRange(network.Neurons.Select(n => (object)Math.Round(n.Weights[attribute.OrderNumber], weightsPrecision)));
+                grid.Rows.Add(row.ToArray());
+            }
+        }
+
+        /// <summary>
         /// Отобразить данные сети в DataGridView.
         /// </summary>
         /// <param name="entities">Набор сущностей.</param>
@@ -30,13 +61,14 @@ namespace KohonenNeuroNet.Interface
             }
             
             grid.Columns.Add("№", "№");
+            grid.Columns.Add("Название", "Название");
             foreach (var attribute in attributes)
             {
                 grid.Columns.Add(attribute.Name, attribute.Name);
             }
             foreach(var entity in entities)
             {
-                var entityAttributeValues = new List<object> { entity.OrderNumber };
+                var entityAttributeValues = new List<object> { entity.OrderNumber, entity.Name };
                 entityAttributeValues.AddRange(entity.AttributeValues.Select(a => (object)a.Value));
                 grid.Rows.Add(entityAttributeValues.ToArray());
             }

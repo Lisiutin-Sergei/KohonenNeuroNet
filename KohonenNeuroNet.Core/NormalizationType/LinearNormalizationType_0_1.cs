@@ -38,7 +38,7 @@ namespace KohonenNeuroNet.Core.NormalizationType
 
             while (true)
             {
-                nextDouble = _random.NextDouble();
+                nextDouble = Randomizer.Instance.NextDouble();
                 if (nextDouble >= minValue && nextDouble <= maxValue)
                 {
                     return nextDouble;

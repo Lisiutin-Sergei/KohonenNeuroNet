@@ -30,48 +30,51 @@
         {
             this.tabPanelMain = new System.Windows.Forms.TabControl();
             this.tabLearning = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.dgvInputLearningData = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbIterationsCount = new System.Windows.Forms.NumericUpDown();
             this.tbClastersCount = new System.Windows.Forms.NumericUpDown();
             this.btnLearnNetwork = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.tbLearningFile = new System.Windows.Forms.TextBox();
-            this.btnChooseLearningFile = new System.Windows.Forms.Button();
-            this.dgvInputLearningData = new System.Windows.Forms.DataGridView();
-            this.tabTesting = new System.Windows.Forms.TabPage();
-            this.BtnTest = new System.Windows.Forms.Button();
-            this.tbTestingFile = new System.Windows.Forms.TextBox();
-            this.btnChooseTestingFile = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dgvTesingData = new System.Windows.Forms.DataGridView();
-            this.tabClasters = new System.Windows.Forms.TabPage();
-            this.dgvClasterEntities = new System.Windows.Forms.DataGridView();
-            this.dgvClasters = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
-            this.tbEpochCount = new System.Windows.Forms.NumericUpDown();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnChooseLearningFile = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tabNetwork = new System.Windows.Forms.TabPage();
+            this.tabTesting = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.dgvTesingData = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.tbTestingFile = new System.Windows.Forms.TextBox();
+            this.BtnTest = new System.Windows.Forms.Button();
+            this.btnChooseTestingFile = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.tabClasters = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.tabNetwork = new System.Windows.Forms.TabPage();
+            this.dgvClasterEntities = new System.Windows.Forms.DataGridView();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.dgvClasters = new System.Windows.Forms.DataGridView();
+            this.dgvWeights = new System.Windows.Forms.DataGridView();
             this.tabPanelMain.SuspendLayout();
             this.tabLearning.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbClastersCount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInputLearningData)).BeginInit();
-            this.tabTesting.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTesingData)).BeginInit();
-            this.tabClasters.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClasterEntities)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClasters)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbEpochCount)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInputLearningData)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbIterationsCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbClastersCount)).BeginInit();
+            this.tabNetwork.SuspendLayout();
+            this.tabTesting.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTesingData)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            this.tabClasters.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClasterEntities)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClasters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvWeights)).BeginInit();
             this.SuspendLayout();
             // 
             // tabPanelMain
@@ -98,86 +101,16 @@
             this.tabLearning.Text = "Обучение";
             this.tabLearning.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // groupBox2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Выборка для обучения";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.tbEpochCount);
-            this.groupBox1.Controls.Add(this.tbClastersCount);
-            this.groupBox1.Controls.Add(this.btnLearnNetwork);
-            this.groupBox1.Controls.Add(this.tbLearningFile);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.btnChooseLearningFile);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(861, 97);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Параметры обучения";
-            // 
-            // tbClastersCount
-            // 
-            this.tbClastersCount.Location = new System.Drawing.Point(138, 44);
-            this.tbClastersCount.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.tbClastersCount.Name = "tbClastersCount";
-            this.tbClastersCount.Size = new System.Drawing.Size(45, 20);
-            this.tbClastersCount.TabIndex = 5;
-            this.tbClastersCount.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // btnLearnNetwork
-            // 
-            this.btnLearnNetwork.Location = new System.Drawing.Point(762, 67);
-            this.btnLearnNetwork.Name = "btnLearnNetwork";
-            this.btnLearnNetwork.Size = new System.Drawing.Size(93, 23);
-            this.btnLearnNetwork.TabIndex = 3;
-            this.btnLearnNetwork.Text = "Обучить сеть";
-            this.btnLearnNetwork.UseVisualStyleBackColor = true;
-            this.btnLearnNetwork.Click += new System.EventHandler(this.Btn_LearnNetwork_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 46);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(122, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Количество кластеров";
-            // 
-            // tbLearningFile
-            // 
-            this.tbLearningFile.Location = new System.Drawing.Point(138, 18);
-            this.tbLearningFile.Name = "tbLearningFile";
-            this.tbLearningFile.ReadOnly = true;
-            this.tbLearningFile.Size = new System.Drawing.Size(618, 20);
-            this.tbLearningFile.TabIndex = 2;
-            // 
-            // btnChooseLearningFile
-            // 
-            this.btnChooseLearningFile.Location = new System.Drawing.Point(762, 16);
-            this.btnChooseLearningFile.Name = "btnChooseLearningFile";
-            this.btnChooseLearningFile.Size = new System.Drawing.Size(93, 23);
-            this.btnChooseLearningFile.TabIndex = 1;
-            this.btnChooseLearningFile.Text = "Выбрать файл";
-            this.btnChooseLearningFile.UseVisualStyleBackColor = true;
-            this.btnChooseLearningFile.Click += new System.EventHandler(this.Btn_ChooseLearningFile_Click);
+            this.groupBox2.Controls.Add(this.dgvInputLearningData);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(3, 100);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(861, 352);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Выборка для обучения";
             // 
             // dgvInputLearningData
             // 
@@ -194,6 +127,129 @@
             this.dgvInputLearningData.Size = new System.Drawing.Size(855, 333);
             this.dgvInputLearningData.TabIndex = 0;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.tbIterationsCount);
+            this.groupBox1.Controls.Add(this.tbClastersCount);
+            this.groupBox1.Controls.Add(this.btnLearnNetwork);
+            this.groupBox1.Controls.Add(this.tbLearningFile);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.btnChooseLearningFile);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(861, 97);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Параметры обучения";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 21);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(122, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Выборка для обучения";
+            // 
+            // tbIterationsCount
+            // 
+            this.tbIterationsCount.Location = new System.Drawing.Point(138, 70);
+            this.tbIterationsCount.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.tbIterationsCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.tbIterationsCount.Name = "tbIterationsCount";
+            this.tbIterationsCount.Size = new System.Drawing.Size(61, 20);
+            this.tbIterationsCount.TabIndex = 5;
+            this.tbIterationsCount.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // tbClastersCount
+            // 
+            this.tbClastersCount.Location = new System.Drawing.Point(138, 44);
+            this.tbClastersCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.tbClastersCount.Name = "tbClastersCount";
+            this.tbClastersCount.Size = new System.Drawing.Size(61, 20);
+            this.tbClastersCount.TabIndex = 5;
+            this.tbClastersCount.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            // 
+            // btnLearnNetwork
+            // 
+            this.btnLearnNetwork.Location = new System.Drawing.Point(762, 67);
+            this.btnLearnNetwork.Name = "btnLearnNetwork";
+            this.btnLearnNetwork.Size = new System.Drawing.Size(93, 23);
+            this.btnLearnNetwork.TabIndex = 3;
+            this.btnLearnNetwork.Text = "Обучить сеть";
+            this.btnLearnNetwork.UseVisualStyleBackColor = true;
+            this.btnLearnNetwork.Click += new System.EventHandler(this.Btn_LearnNetwork_Click);
+            // 
+            // tbLearningFile
+            // 
+            this.tbLearningFile.Location = new System.Drawing.Point(138, 18);
+            this.tbLearningFile.Name = "tbLearningFile";
+            this.tbLearningFile.ReadOnly = true;
+            this.tbLearningFile.Size = new System.Drawing.Size(618, 20);
+            this.tbLearningFile.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(116, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Количество итераций";
+            // 
+            // btnChooseLearningFile
+            // 
+            this.btnChooseLearningFile.Location = new System.Drawing.Point(762, 16);
+            this.btnChooseLearningFile.Name = "btnChooseLearningFile";
+            this.btnChooseLearningFile.Size = new System.Drawing.Size(93, 23);
+            this.btnChooseLearningFile.TabIndex = 1;
+            this.btnChooseLearningFile.Text = "Выбрать файл";
+            this.btnChooseLearningFile.UseVisualStyleBackColor = true;
+            this.btnChooseLearningFile.Click += new System.EventHandler(this.Btn_ChooseLearningFile_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 46);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(122, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Количество кластеров";
+            // 
+            // tabNetwork
+            // 
+            this.tabNetwork.Controls.Add(this.dgvWeights);
+            this.tabNetwork.Location = new System.Drawing.Point(4, 22);
+            this.tabNetwork.Name = "tabNetwork";
+            this.tabNetwork.Padding = new System.Windows.Forms.Padding(3);
+            this.tabNetwork.Size = new System.Drawing.Size(867, 455);
+            this.tabNetwork.TabIndex = 3;
+            this.tabNetwork.Text = "Сеть";
+            this.tabNetwork.UseVisualStyleBackColor = true;
+            // 
             // tabTesting
             // 
             this.tabTesting.Controls.Add(this.groupBox4);
@@ -207,42 +263,16 @@
             this.tabTesting.Text = "Тестирование";
             this.tabTesting.UseVisualStyleBackColor = true;
             // 
-            // BtnTest
+            // groupBox4
             // 
-            this.BtnTest.Location = new System.Drawing.Point(747, 47);
-            this.BtnTest.Name = "BtnTest";
-            this.BtnTest.Size = new System.Drawing.Size(102, 23);
-            this.BtnTest.TabIndex = 7;
-            this.BtnTest.Text = "Кластеризовать";
-            this.BtnTest.UseVisualStyleBackColor = true;
-            this.BtnTest.Click += new System.EventHandler(this.Btn_Test_Click);
-            // 
-            // tbTestingFile
-            // 
-            this.tbTestingFile.Location = new System.Drawing.Point(165, 18);
-            this.tbTestingFile.Name = "tbTestingFile";
-            this.tbTestingFile.ReadOnly = true;
-            this.tbTestingFile.Size = new System.Drawing.Size(576, 20);
-            this.tbTestingFile.TabIndex = 6;
-            // 
-            // btnChooseTestingFile
-            // 
-            this.btnChooseTestingFile.Location = new System.Drawing.Point(747, 16);
-            this.btnChooseTestingFile.Name = "btnChooseTestingFile";
-            this.btnChooseTestingFile.Size = new System.Drawing.Size(102, 23);
-            this.btnChooseTestingFile.TabIndex = 5;
-            this.btnChooseTestingFile.Text = "Выбрать файл";
-            this.btnChooseTestingFile.UseVisualStyleBackColor = true;
-            this.btnChooseTestingFile.Click += new System.EventHandler(this.Btn_ChooseTestingFile_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(402, 454);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.groupBox4.Controls.Add(this.dgvTesingData);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox4.Location = new System.Drawing.Point(3, 79);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(861, 373);
+            this.groupBox4.TabIndex = 9;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Выборка для кластеризации";
             // 
             // dgvTesingData
             // 
@@ -257,85 +287,6 @@
             this.dgvTesingData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTesingData.Size = new System.Drawing.Size(855, 354);
             this.dgvTesingData.TabIndex = 0;
-            // 
-            // tabClasters
-            // 
-            this.tabClasters.Controls.Add(this.groupBox6);
-            this.tabClasters.Controls.Add(this.groupBox5);
-            this.tabClasters.Location = new System.Drawing.Point(4, 22);
-            this.tabClasters.Name = "tabClasters";
-            this.tabClasters.Padding = new System.Windows.Forms.Padding(3);
-            this.tabClasters.Size = new System.Drawing.Size(867, 455);
-            this.tabClasters.TabIndex = 2;
-            this.tabClasters.Text = "Кластеры";
-            this.tabClasters.UseVisualStyleBackColor = true;
-            // 
-            // dgvClasterEntities
-            // 
-            this.dgvClasterEntities.AllowUserToAddRows = false;
-            this.dgvClasterEntities.AllowUserToDeleteRows = false;
-            this.dgvClasterEntities.AllowUserToResizeRows = false;
-            this.dgvClasterEntities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClasterEntities.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvClasterEntities.Location = new System.Drawing.Point(3, 16);
-            this.dgvClasterEntities.Name = "dgvClasterEntities";
-            this.dgvClasterEntities.ReadOnly = true;
-            this.dgvClasterEntities.RowHeadersVisible = false;
-            this.dgvClasterEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClasterEntities.Size = new System.Drawing.Size(855, 287);
-            this.dgvClasterEntities.TabIndex = 10;
-            // 
-            // dgvClasters
-            // 
-            this.dgvClasters.AllowUserToAddRows = false;
-            this.dgvClasters.AllowUserToDeleteRows = false;
-            this.dgvClasters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClasters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvClasters.Location = new System.Drawing.Point(3, 16);
-            this.dgvClasters.Name = "dgvClasters";
-            this.dgvClasters.ReadOnly = true;
-            this.dgvClasters.RowHeadersVisible = false;
-            this.dgvClasters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClasters.Size = new System.Drawing.Size(855, 124);
-            this.dgvClasters.TabIndex = 9;
-            this.dgvClasters.SelectionChanged += new System.EventHandler(this.Dgv_Clasters_SelectionChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(92, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Количество эпох";
-            // 
-            // tbEpochCount
-            // 
-            this.tbEpochCount.Location = new System.Drawing.Point(138, 70);
-            this.tbEpochCount.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.tbEpochCount.Name = "tbEpochCount";
-            this.tbEpochCount.Size = new System.Drawing.Size(45, 20);
-            this.tbEpochCount.TabIndex = 5;
-            this.tbEpochCount.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.dgvInputLearningData);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(3, 100);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(861, 352);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Выборка для обучения";
             // 
             // groupBox3
             // 
@@ -360,27 +311,54 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Выборка для кластеризации";
             // 
-            // groupBox4
+            // tbTestingFile
             // 
-            this.groupBox4.Controls.Add(this.dgvTesingData);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(3, 79);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(861, 373);
-            this.groupBox4.TabIndex = 9;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Выборка для кластеризации";
+            this.tbTestingFile.Location = new System.Drawing.Point(165, 18);
+            this.tbTestingFile.Name = "tbTestingFile";
+            this.tbTestingFile.ReadOnly = true;
+            this.tbTestingFile.Size = new System.Drawing.Size(576, 20);
+            this.tbTestingFile.TabIndex = 6;
             // 
-            // groupBox5
+            // BtnTest
             // 
-            this.groupBox5.Controls.Add(this.dgvClasters);
-            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(3, 3);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(861, 143);
-            this.groupBox5.TabIndex = 11;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Кластеры";
+            this.BtnTest.Location = new System.Drawing.Point(747, 47);
+            this.BtnTest.Name = "BtnTest";
+            this.BtnTest.Size = new System.Drawing.Size(102, 23);
+            this.BtnTest.TabIndex = 7;
+            this.BtnTest.Text = "Кластеризовать";
+            this.BtnTest.UseVisualStyleBackColor = true;
+            this.BtnTest.Click += new System.EventHandler(this.Btn_Test_Click);
+            // 
+            // btnChooseTestingFile
+            // 
+            this.btnChooseTestingFile.Location = new System.Drawing.Point(747, 16);
+            this.btnChooseTestingFile.Name = "btnChooseTestingFile";
+            this.btnChooseTestingFile.Size = new System.Drawing.Size(102, 23);
+            this.btnChooseTestingFile.TabIndex = 5;
+            this.btnChooseTestingFile.Text = "Выбрать файл";
+            this.btnChooseTestingFile.UseVisualStyleBackColor = true;
+            this.btnChooseTestingFile.Click += new System.EventHandler(this.Btn_ChooseTestingFile_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(402, 454);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // tabClasters
+            // 
+            this.tabClasters.Controls.Add(this.groupBox6);
+            this.tabClasters.Controls.Add(this.groupBox5);
+            this.tabClasters.Location = new System.Drawing.Point(4, 22);
+            this.tabClasters.Name = "tabClasters";
+            this.tabClasters.Padding = new System.Windows.Forms.Padding(3);
+            this.tabClasters.Size = new System.Drawing.Size(867, 455);
+            this.tabClasters.TabIndex = 2;
+            this.tabClasters.Text = "Кластеры";
+            this.tabClasters.UseVisualStyleBackColor = true;
             // 
             // groupBox6
             // 
@@ -393,15 +371,55 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Элементы кластера";
             // 
-            // tabNetwork
+            // dgvClasterEntities
             // 
-            this.tabNetwork.Location = new System.Drawing.Point(4, 22);
-            this.tabNetwork.Name = "tabNetwork";
-            this.tabNetwork.Padding = new System.Windows.Forms.Padding(3);
-            this.tabNetwork.Size = new System.Drawing.Size(867, 455);
-            this.tabNetwork.TabIndex = 3;
-            this.tabNetwork.Text = "Сеть";
-            this.tabNetwork.UseVisualStyleBackColor = true;
+            this.dgvClasterEntities.AllowUserToAddRows = false;
+            this.dgvClasterEntities.AllowUserToDeleteRows = false;
+            this.dgvClasterEntities.AllowUserToResizeRows = false;
+            this.dgvClasterEntities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvClasterEntities.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvClasterEntities.Location = new System.Drawing.Point(3, 16);
+            this.dgvClasterEntities.Name = "dgvClasterEntities";
+            this.dgvClasterEntities.ReadOnly = true;
+            this.dgvClasterEntities.RowHeadersVisible = false;
+            this.dgvClasterEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvClasterEntities.Size = new System.Drawing.Size(855, 287);
+            this.dgvClasterEntities.TabIndex = 10;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.dgvClasters);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox5.Location = new System.Drawing.Point(3, 3);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(861, 143);
+            this.groupBox5.TabIndex = 11;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Кластеры";
+            // 
+            // dgvClasters
+            // 
+            this.dgvClasters.AllowUserToAddRows = false;
+            this.dgvClasters.AllowUserToDeleteRows = false;
+            this.dgvClasters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvClasters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvClasters.Location = new System.Drawing.Point(3, 16);
+            this.dgvClasters.Name = "dgvClasters";
+            this.dgvClasters.ReadOnly = true;
+            this.dgvClasters.RowHeadersVisible = false;
+            this.dgvClasters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvClasters.Size = new System.Drawing.Size(855, 124);
+            this.dgvClasters.TabIndex = 9;
+            this.dgvClasters.SelectionChanged += new System.EventHandler(this.Dgv_Clasters_SelectionChanged);
+            // 
+            // dgvWeights
+            // 
+            this.dgvWeights.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvWeights.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvWeights.Location = new System.Drawing.Point(3, 3);
+            this.dgvWeights.Name = "dgvWeights";
+            this.dgvWeights.Size = new System.Drawing.Size(861, 449);
+            this.dgvWeights.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -415,22 +433,24 @@
             this.Text = "Сеть Кохонена";
             this.tabPanelMain.ResumeLayout(false);
             this.tabLearning.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInputLearningData)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbIterationsCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbClastersCount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInputLearningData)).EndInit();
+            this.tabNetwork.ResumeLayout(false);
             this.tabTesting.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTesingData)).EndInit();
-            this.tabClasters.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClasterEntities)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClasters)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbEpochCount)).EndInit();
-            this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
+            this.tabClasters.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClasterEntities)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClasters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvWeights)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -456,7 +476,7 @@
         private System.Windows.Forms.DataGridView dgvClasterEntities;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown tbEpochCount;
+        private System.Windows.Forms.NumericUpDown tbIterationsCount;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -465,6 +485,7 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.TabPage tabNetwork;
+        private System.Windows.Forms.DataGridView dgvWeights;
     }
 }
 

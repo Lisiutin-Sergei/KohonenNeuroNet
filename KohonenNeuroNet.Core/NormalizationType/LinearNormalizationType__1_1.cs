@@ -9,11 +9,6 @@ namespace KohonenNeuroNet.Core.NormalizationType
     public class LinearNormalizationType__1_1 : INormalizatiionType
     {
         /// <summary>
-        /// Рандомайзер.
-        /// </summary>
-        private readonly Random _random = new Random();
-
-        /// <summary>
         /// Получить нормализованное значение атрибута.
         /// </summary>
         /// <param name="attribute">Атрибут сущности.</param>
@@ -36,7 +31,7 @@ namespace KohonenNeuroNet.Core.NormalizationType
 
             while (true)
             {
-                nextDouble = (_random.NextDouble() - 0.5) * 2;
+                nextDouble = (Randomizer.Instance.NextDouble() - 0.5) * 2;
                 if (Math.Abs(nextDouble) <= 1 / Math.Sqrt(inputsCount))
                 {
                     return nextDouble;

@@ -47,14 +47,13 @@ namespace KohonenNeuroNet.Interface
         /// <summary>
         /// Нейронная сеть.
         /// </summary>
-        public readonly AbstractNetwork NeuralNetwork = new SelfOrganizingMap();
+        public AbstractNetwork NeuralNetwork { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
             _reader = new ExcelReader();
             _converter = new NetworkDataSetConverter();
-            NeuralNetwork.IterationCompleted += OnIterationCompleted;
         }
 
         /// <summary>
@@ -90,14 +89,18 @@ namespace KohonenNeuroNet.Interface
         /// <param name="e"></param>
         private void Btn_LearnNetwork_Click(object sender, EventArgs e)
         {
+<<<<<<< Updated upstream
+=======
+            var iterationsCount = 6;
+>>>>>>> Stashed changes
             int clastersCount = (int)tbClastersCount.Value;
-            int iterationsCount = (int)tbIterationsCount.Value;
+            int epochCount = (int)tbEpochCount.Value;
             if (clastersCount < 1)
             {
                 MessageBox.Show("Количество кластеров должно быть положительным", "Ошибка");
                 return;
             }
-            if (iterationsCount < 1)
+            if (epochCount < 1)
             {
                 MessageBox.Show("Количество эпох обучения должно быть положительным", "Ошибка");
                 return;
@@ -111,6 +114,7 @@ namespace KohonenNeuroNet.Interface
 
             using (new CursorHandler())
             {
+                NeuralNetwork = new SelfOrganizingMap();
                 NeuralNetwork.Study(_learningDataSet, clastersCount, iterationsCount);
 
                 // Сформировать пустые кластеры
@@ -202,16 +206,6 @@ namespace KohonenNeuroNet.Interface
             var claster = Clasters.First(c => c.Number == clasterNumber);
 
             _interfaceMediator.DrawDataIntoGrid(claster.Entities, _testingDataSet.Attributes, dgvClasterEntities);
-        }
-        
-        /// <summary>
-        /// Отобразить веса сети при их изменении.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnIterationCompleted(object sender, EventArgs e)
-        {
-            _interfaceMediator.DrawNetworkWeights(NeuralNetwork, _learningDataSet.Attributes, dgvWeights);
         }
     }
 }

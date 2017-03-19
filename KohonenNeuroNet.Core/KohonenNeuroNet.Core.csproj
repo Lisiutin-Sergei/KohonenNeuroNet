@@ -49,9 +49,11 @@
     <Compile Include="NeuralNetwork\ClassicKohonenNetwork.cs" />
     <Compile Include="NetworkData\NetworkDataSetConverter.cs" />
     <Compile Include="NeuralNetwork\Neuron.cs" />
+    <Compile Include="NeuralNetwork\SelfOrganizingMap.cs" />
     <Compile Include="NormalizationType\INormalizatiionType.cs" />
     <Compile Include="NormalizationType\LinearNormalizationType_0_1.cs" />
     <Compile Include="NormalizationType\LinearNormalizationType__1_1.cs" />
+    <Compile Include="NormalizationType\Randomizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

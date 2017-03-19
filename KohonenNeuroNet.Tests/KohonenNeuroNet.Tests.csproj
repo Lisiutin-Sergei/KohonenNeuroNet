@@ -60,6 +60,7 @@
     <Compile Include="ExcelReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NetworkDataSetConverterTest.cs" />
+    <Compile Include="LinearNormalizationTypeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KohonenNeuroNet.Core\KohonenNeuroNet.Core.csproj">

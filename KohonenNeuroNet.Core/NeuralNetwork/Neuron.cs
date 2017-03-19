@@ -25,11 +25,6 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         public INormalizatiionType NormalizationType { get; set; }
 
         /// <summary>
-        /// Рандомайзер.
-        /// </summary>
-        private readonly Random _random = new Random();
-
-        /// <summary>
         /// Конструктор нейрона.
         /// </summary>
         /// <param name="neuronNumber">Порядковый номер нейрона.</param>

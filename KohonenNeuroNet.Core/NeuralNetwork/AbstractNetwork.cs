@@ -22,6 +22,18 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         public List<Neuron> Neurons { get; set; } = new List<Neuron>();
 
         /// <summary>
+        /// Генератор случайных чисел.
+        /// </summary>
+        private readonly Random _random = new Random();
+
+        /// <summary>
+        /// Минимальная ошибка обучения.
+        /// </summary>
+        public const double LEARNING_ERROR = 0.01;
+
+        public event EventHandler IterationCompleted;
+
+        /// <summary>
         /// Сгенерировать нейроны сети.
         /// </summary>
         /// <param name="inputsCount">Количество параметров входящего вектора.</param>
@@ -41,20 +53,18 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// </summary>
         /// <param name="inputDataSet">Набор входных данных для обучения.</param>
         /// <param name="neuronsCount">Количество нейронов.</param>
-        /// <param name="epochCount">Количество эпох.</param>
-        public virtual void Study(NetworkDataSet inputDataSet, int neuronsCount, int epochCount)
+        /// <param name="iterationsCount">Количество эпох.</param>
+        public virtual void Study(NetworkDataSet inputDataSet, int neuronsCount, int iterationsCount)
         {
             GenerateNeurons(inputDataSet?.Attributes?.Count ?? 0, neuronsCount);
 
-            double totalError = 0;
-            for (int epoch = 0; epoch < epochCount; epoch++)
+            for (int iteration = 0; iteration < iterationsCount; iteration++)
             {
-                for (int iteration = 0; iteration < inputDataSet.Entities.Count; iteration++)
-                {
-                    totalError += StudyInputEntity(inputDataSet.Entities[iteration], epoch);
-                }
+                var randomNumber = _random.Next(0, inputDataSet.Entities.Count - 1);
+                var randomEntity = inputDataSet.Entities[randomNumber];
+                var totalError = StudyInputEntity(randomEntity, iteration, iterationsCount);
+                IterationCompleted?.Invoke(this, null);
             }
-            totalError /= inputDataSet.Entities.Count;
         }
 
         /// <summary>
@@ -63,7 +73,7 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         /// <param name="inputEntity">Входной вектор.</param>
         /// <param name="epoch">Номер эпохи обучения.</param>
         /// <returns>Ошибка обучения.</returns>
-        public abstract double StudyInputEntity(NetworkDataEntity inputEntity, int epoch);
+        public abstract double StudyInputEntity(NetworkDataEntity inputEntity, int epoch, int epochCount);
 
         /// <summary>
         /// Получить нейрон-победитель.
@@ -73,19 +83,12 @@ namespace KohonenNeuroNet.Core.NeuralNetwork
         public abstract Neuron GetNeuronWinner(NetworkDataEntity inputEntity);
 
         /// <summary>
-        /// Обучить нейрон-победитель.
-        /// </summary>
-        /// <param name="neuronWinner">Нейрон-победитель.</param>
-        /// <param name="inputEntity">Входной вектор.</param>
-        /// <param name="learningRate">Скорость обучения.</param>
-        public abstract void StudyNeuron(Neuron neuronWinner, NetworkDataEntity inputEntity, double learningRate);
-
-        /// <summary>
         /// Получить скорость обучения на текущем цикле обучения.
         /// </summary>
-        /// <param name="k">Цикл обучения.</param>
+        /// <param name="currentIteration">Текущая итерация обучения.</param>
+        /// <param name="iterationsCount">Общее количество итераций обучения.</param>
         /// <returns>Скорость обучения.</returns>
-        public abstract double GetLearningRate(int k);
+        public abstract double GetLearningRate(int currentIteration, int iterationsCount);
 
         /// <summary>
         /// Найти евклидово расстояние от входного вектора до центра кластера.
