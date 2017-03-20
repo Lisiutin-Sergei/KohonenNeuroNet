@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KohonenNeuroNet.Core.NetworkData
+namespace KohonenNeuroNet.NeuralNetwork.NetworkData
 {
     /// <summary>
     /// Кластер.

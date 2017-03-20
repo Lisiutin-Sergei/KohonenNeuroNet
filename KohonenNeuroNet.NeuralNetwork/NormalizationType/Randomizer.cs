@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KohonenNeuroNet.Core.NormalizationType
+namespace KohonenNeuroNet.NeuralNetwork.NormalizationType
 {
     /// <summary>
     /// Статичный рандомайзер.

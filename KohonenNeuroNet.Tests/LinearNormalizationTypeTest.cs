@@ -1,15 +1,14 @@
-﻿using System;
+﻿using KohonenNeuroNet.NeuralNetwork.NormalizationType;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using KohonenNeuroNet.Core.NormalizationType;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace KohonenNeuroNet.Tests
 {
-    /// <summary>
-    /// Тесты для линейного нормализатора от 0 до 1.
-    /// </summary>
-    [TestClass]
+	/// <summary>
+	/// Тесты для линейного нормализатора от 0 до 1.
+	/// </summary>
+	[TestClass]
     public class LinearNormalizationTypeTest
     {
         /// <summary>

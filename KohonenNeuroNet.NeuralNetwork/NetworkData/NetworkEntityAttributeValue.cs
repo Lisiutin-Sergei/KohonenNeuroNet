@@ -1,12 +1,11 @@
-﻿using KohonenNeuroNet.Core.NormalizationType;
-using System;
+﻿using KohonenNeuroNet.NeuralNetwork.NormalizationType;
 
-namespace KohonenNeuroNet.Core.NetworkData
+namespace KohonenNeuroNet.NeuralNetwork.NetworkData
 {
-    /// <summary>
-    /// Значение атрибута элемента данных (ячейка).
-    /// </summary>
-    public class NetworkEntityAttributeValue
+	/// <summary>
+	/// Значение атрибута элемента данных (ячейка).
+	/// </summary>
+	public class NetworkEntityAttributeValue
     {
         /// <summary>
         /// Атрибут сущности.

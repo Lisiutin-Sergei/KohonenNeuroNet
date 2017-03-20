@@ -1,4 +1,4 @@
-﻿using KohonenNeuroNet.Core.NetworkData;
+﻿using KohonenNeuroNet.NeuralNetwork.NetworkData;
 using KohonenNeuroNet.Utilities;
 using KohonenNeuroNet.Utilities.Implementation.Reader;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace KohonenNeuroNet.Tests
 {
-    /// <summary>
-    /// Тесты для конвертера даннных в формат, с которым работает нейронная сеть.
-    /// </summary>
-    [TestClass]
+	/// <summary>
+	/// Тесты для конвертера даннных в формат, с которым работает нейронная сеть.
+	/// </summary>
+	[TestClass]
     public class NetworkDataSetConverterTest
     {
         /// <summary>

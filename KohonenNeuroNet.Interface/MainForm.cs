@@ -1,18 +1,17 @@
-﻿using KohonenNeuroNet.Core.NetworkData;
-using KohonenNeuroNet.Core.NeuralNetwork;
+﻿using KohonenNeuroNet.NeuralNetwork.NetworkData;
+using KohonenNeuroNet.NeuralNetwork.NeuralNetwork;
 using KohonenNeuroNet.Utilities;
 using KohonenNeuroNet.Utilities.Implementation.Reader;
 using KohonenNeuroNet.Utilities.Interface.Reader;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace KohonenNeuroNet.Interface
 {
-    public partial class MainForm : Form
+	public partial class MainForm : Form
     {
         /// <summary>
         /// Утилита чтения данных из файла.

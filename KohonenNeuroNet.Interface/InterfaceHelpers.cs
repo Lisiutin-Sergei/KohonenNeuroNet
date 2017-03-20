@@ -1,19 +1,17 @@
-﻿using KohonenNeuroNet.Core.NetworkData;
-using KohonenNeuroNet.Core.NeuralNetwork;
+﻿using KohonenNeuroNet.NeuralNetwork.NetworkData;
+using KohonenNeuroNet.NeuralNetwork.NeuralNetwork;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KohonenNeuroNet.Interface
 {
-    /// <summary>
-    /// Посредник для работы с данными в интерфейсе.
-    /// </summary>
-    public class InterfaceMediator
+	/// <summary>
+	/// Посредник для работы с данными в интерфейсе.
+	/// </summary>
+	public class InterfaceMediator
     {
         /// <summary>
         /// Отобразить веса сети в DataGridView.

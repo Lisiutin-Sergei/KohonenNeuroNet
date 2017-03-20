@@ -1,15 +1,14 @@
-﻿using KohonenNeuroNet.Core.NetworkData;
-using KohonenNeuroNet.Core.NormalizationType;
+﻿using KohonenNeuroNet.NeuralNetwork.NetworkData;
+using KohonenNeuroNet.NeuralNetwork.NormalizationType;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace KohonenNeuroNet.Core.NeuralNetwork
+namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
 {
-    /// <summary>
-    /// СОМ Кохонена.
-    /// </summary>
-    public class SelfOrganizingMap : AbstractNetwork
+	/// <summary>
+	/// СОМ Кохонена.
+	/// </summary>
+	public class SelfOrganizingMap : AbstractNetwork
     {
         /// <summary>
         /// Тип нормализации.

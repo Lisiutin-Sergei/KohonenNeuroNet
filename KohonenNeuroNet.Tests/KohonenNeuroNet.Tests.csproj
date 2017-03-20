@@ -67,6 +67,10 @@
       <Project>{57383278-0b96-475b-8d1e-0577a813d690}</Project>
       <Name>KohonenNeuroNet.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KohonenNeuroNet.NeuralNetwork\KohonenNeuroNet.NeuralNetwork.csproj">
+      <Project>{F0E6F051-22E2-4D3D-8D7E-A08CDD093E88}</Project>
+      <Name>KohonenNeuroNet.NeuralNetwork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KohonenNeuroNet.Utilities\KohonenNeuroNet.Utilities.csproj">
       <Project>{CB29F1EB-558C-448C-8BC6-73D087398227}</Project>
       <Name>KohonenNeuroNet.Utilities</Name>

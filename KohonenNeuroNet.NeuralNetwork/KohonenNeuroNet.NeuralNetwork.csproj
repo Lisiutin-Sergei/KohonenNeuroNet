@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{57383278-0B96-475B-8D1E-0577A813D690}</ProjectGuid>
+    <ProjectGuid>{F0E6F051-22E2-4D3D-8D7E-A08CDD093E88}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KohonenNeuroNet.Core</RootNamespace>
-    <AssemblyName>KohonenNeuroNet.Core</AssemblyName>
+    <RootNamespace>KohonenNeuroNet.NeuralNetwork</RootNamespace>
+    <AssemblyName>KohonenNeuroNet.NeuralNetwork</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,6 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NetworkData\NetworkAttribute.cs" />
+    <Compile Include="NetworkData\NetworkClaster.cs" />
+    <Compile Include="NetworkData\NetworkDataEntity.cs" />
+    <Compile Include="NetworkData\NetworkDataSet.cs" />
+    <Compile Include="NetworkData\NetworkDataSetConverter.cs" />
+    <Compile Include="NetworkData\NetworkEntityAttributeValue.cs" />
+    <Compile Include="NeuralNetwork\AbstractNetwork.cs" />
+    <Compile Include="NeuralNetwork\ClassicKohonenNetwork.cs" />
+    <Compile Include="NeuralNetwork\Neuron.cs" />
+    <Compile Include="NeuralNetwork\SelfOrganizingMap.cs" />
+    <Compile Include="NormalizationType\INormalizatiionType.cs" />
+    <Compile Include="NormalizationType\LinearNormalizationType_0_1.cs" />
+    <Compile Include="NormalizationType\LinearNormalizationType__1_1.cs" />
+    <Compile Include="NormalizationType\Randomizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -47,10 +61,6 @@
       <Project>{CB29F1EB-558C-448C-8BC6-73D087398227}</Project>
       <Name>KohonenNeuroNet.Utilities</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataInterface\" />
-    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

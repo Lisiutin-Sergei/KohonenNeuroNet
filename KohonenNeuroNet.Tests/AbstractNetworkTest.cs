@@ -1,13 +1,13 @@
-﻿using KohonenNeuroNet.Core.NeuralNetwork;
+﻿using KohonenNeuroNet.NeuralNetwork.NeuralNetwork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace KohonenNeuroNet.Tests
 {
-    /// <summary>
-    /// Тесты для абстрактной нейронной сети.
-    /// </summary>
-    [TestClass]
+	/// <summary>
+	/// Тесты для абстрактной нейронной сети.
+	/// </summary>
+	[TestClass]
     public class AbstractNetworkTest
     {
         /// <summary>

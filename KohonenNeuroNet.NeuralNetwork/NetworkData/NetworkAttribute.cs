@@ -1,4 +1,4 @@
-﻿namespace KohonenNeuroNet.Core.NetworkData
+﻿namespace KohonenNeuroNet.NeuralNetwork.NetworkData
 {
     /// <summary>
     /// Атрибут сущности (колонка).

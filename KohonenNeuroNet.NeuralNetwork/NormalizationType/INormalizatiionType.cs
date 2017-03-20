@@ -1,11 +1,11 @@
-﻿using KohonenNeuroNet.Core.NetworkData;
+﻿using KohonenNeuroNet.NeuralNetwork.NetworkData;
 
-namespace KohonenNeuroNet.Core.NormalizationType
+namespace KohonenNeuroNet.NeuralNetwork.NormalizationType
 {
-    /// <summary>
-    /// Интерфейс нормализации сети.
-    /// </summary>
-    public interface INormalizatiionType
+	/// <summary>
+	/// Интерфейс нормализации сети.
+	/// </summary>
+	public interface INormalizatiionType
     {
         /// <summary>
         /// Получить нормализованное значение атрибута.

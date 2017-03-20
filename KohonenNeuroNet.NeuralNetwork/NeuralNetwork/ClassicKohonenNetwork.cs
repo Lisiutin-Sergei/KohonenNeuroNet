@@ -1,14 +1,14 @@
-﻿using KohonenNeuroNet.Core.NetworkData;
-using KohonenNeuroNet.Core.NormalizationType;
+﻿using KohonenNeuroNet.NeuralNetwork.NetworkData;
+using KohonenNeuroNet.NeuralNetwork.NormalizationType;
 using System;
 using System.Linq;
 
-namespace KohonenNeuroNet.Core.NeuralNetwork
+namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
 {
-    /// <summary>
-    /// Нейронная сеть.
-    /// </summary>
-    public class ClassicKohonenNetwork : AbstractNetwork
+	/// <summary>
+	/// Нейронная сеть.
+	/// </summary>
+	public class ClassicKohonenNetwork : AbstractNetwork
     {
         /// <summary>
         /// Тип нормализации.

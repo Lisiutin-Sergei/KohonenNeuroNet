@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace KohonenNeuroNet.Core.NetworkData
+namespace KohonenNeuroNet.NeuralNetwork.NetworkData
 {
-    /// <summary>
-    /// Конвертер, преобразовывающий даннные в формат, с которым работает нейронная сеть.
-    /// </summary>
-    public class NetworkDataSetConverter
+	/// <summary>
+	/// Конвертер, преобразовывающий даннные в формат, с которым работает нейронная сеть.
+	/// </summary>
+	public class NetworkDataSetConverter
     {
         /// <summary>
         /// Преобразовать данные в формат нейронной сети из DataTable.

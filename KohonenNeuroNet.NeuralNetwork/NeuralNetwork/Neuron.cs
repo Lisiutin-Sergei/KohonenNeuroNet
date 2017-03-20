@@ -1,13 +1,12 @@
-﻿using KohonenNeuroNet.Core.NormalizationType;
-using System;
+﻿using KohonenNeuroNet.NeuralNetwork.NormalizationType;
 using System.Collections.Generic;
 
-namespace KohonenNeuroNet.Core.NeuralNetwork
+namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
 {
-    /// <summary>
-    /// Нейрон сети.
-    /// </summary>
-    public class Neuron
+	/// <summary>
+	/// Нейрон сети.
+	/// </summary>
+	public class Neuron
     {
         /// <summary>
         /// Порядковый номер нейрона.
