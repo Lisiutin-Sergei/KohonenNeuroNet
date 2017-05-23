@@ -20,7 +20,7 @@ namespace KohonenNeuroNet.Tests
         public void ShouldConvertFromDataTable()
         {
             var reader = new ExcelReader();
-            var excelFileName = "Data.xlsx";
+            var excelFileName = "Sample.xlsx";
             var excelFilePath = Path.Combine(CommonUtils.ResourcesDirectory, excelFileName);
 
             // Получаем DataTable, заодно проверяем работу провайдера данных из Excel

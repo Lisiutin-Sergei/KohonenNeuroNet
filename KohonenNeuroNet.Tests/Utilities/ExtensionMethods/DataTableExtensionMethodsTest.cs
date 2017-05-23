@@ -56,8 +56,9 @@ namespace KohonenNeuroNet.Tests
                         dataTable.Rows.Add(row);
                     }
 
-                    Assert.AreEqual(min, dataTable.Min<double>(column));
-                    Assert.AreEqual(max, dataTable.Max<double>(column));
+                    double epsilon = 1E-10;
+                    Assert.IsTrue(Math.Abs(min - dataTable.Min<double>(column)) <= epsilon);
+                    Assert.IsTrue(Math.Abs(max - dataTable.Max<double>(column)) <= epsilon);
                 }
             }
         }

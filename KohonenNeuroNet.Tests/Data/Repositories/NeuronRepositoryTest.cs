@@ -43,8 +43,7 @@ namespace KohonenNeuroNet.Tests
 			using (UnitOfWork unitOfWork = new UnitOfWork(configuration))
 			{
 				var list = unitOfWork.NeuronRepository.GetAll();
-				Assert.IsTrue(list?.Any() ?? false);
-				Assert.IsNotNull(list.FirstOrDefault());
+				Assert.IsNotNull(list);
 			}
 		}
 

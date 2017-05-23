@@ -15,7 +15,7 @@ namespace KohonenNeuroNet.Data.Mapping
 			Map(e => e.Id)
 				.IsKey()
 				.IsIdentity()
-				.ToColumn("id");
+				.ToColumn("neuron_id");
 			Map(e => e.OrderNumber)
 				.ToColumn("order_number");
 			Map(e => e.NetworkId)

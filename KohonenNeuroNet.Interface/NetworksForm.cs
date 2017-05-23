@@ -1,5 +1,6 @@
 ﻿using KohonenNeuroNet.Core.Interface.Service;
 using KohonenNeuroNet.Core.Model.Domain;
+using KohonenNeuroNet.Interface.DI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,8 @@ namespace KohonenNeuroNet.Interface
 		{
 			try
 			{
-				if (new MainForm().ShowDialog() == DialogResult.OK)
+                var mainForm = IoC.Instance.Resolve<MainForm>(new IoC.NinjectArgument("networkId", null));
+                if (mainForm.ShowDialog() == DialogResult.OK)
 				{
 					var networks = _networkService.LoadAllNetworks();
 					RefreshNetworks(networks);
@@ -74,7 +76,8 @@ namespace KohonenNeuroNet.Interface
 				}
 
 				var networkId = (int)dgvNetworks.SelectedRows[0].Cells[0].Value;
-				new MainForm(networkId).ShowDialog();
+                var mainForm = IoC.Instance.Resolve<MainForm>(new IoC.NinjectArgument("networkId", networkId));
+                mainForm.ShowDialog();
 			}
 			catch (Exception ex)
 			{

@@ -15,7 +15,7 @@ namespace KohonenNeuroNet.Data.Mapping
 			Map(e => e.Id)
 				.IsKey()
 				.IsIdentity()
-				.ToColumn("id");
+				.ToColumn("weight_id");
 			Map(e => e.Value)
 				.ToColumn("value");
 			Map(e => e.InputAttributeId)

@@ -20,20 +20,20 @@ namespace KohonenNeuroNet.Interface
         /// </summary>
         private readonly IReader _reader;
 
+		/// <summary>
+		/// Сервис для работы с данными.
+		/// </summary>
+		private readonly INetworkService _networkService;
+
         /// <summary>
         /// Конвертер для получения входных данных нейросети из DataTable.
         /// </summary>
         private readonly NetworkDataSetConverter _converter;
 
-		/// <summary>
-		/// Посредник для работы с данными в интерфейсе.
-		/// </summary>
-		private readonly InterfaceMediator _interfaceMediator;
-
-		/// <summary>
-		/// Сервис для работы с данными.
-		/// </summary>
-		private readonly INetworkService _networkService;
+        /// <summary>
+        /// Посредник для работы с данными в интерфейсе.
+        /// </summary>
+        private readonly InterfaceMediator _interfaceMediator;
 
         /// <summary>
         /// Данные для обучения сети.
@@ -53,18 +53,19 @@ namespace KohonenNeuroNet.Interface
         /// <summary>
         /// Нейронная сеть.
         /// </summary>
-        public readonly AbstractNetwork NeuralNetwork = new SelfOrganizingMap();
+        public readonly AbstractNetwork NeuralNetwork;
 
-        public MainForm(int? networkId = null)
+        public MainForm(INetworkService networkService, IReader reader, AbstractNetwork network, int? networkId = null)
         {
             InitializeComponent();
 
-            _reader = new ExcelReader();
+            _reader = reader;
+            _networkService = networkService;
             _converter = new NetworkDataSetConverter();
-			_networkService = IoC.Instance.Resolve<INetworkService>();
 			_interfaceMediator = new InterfaceMediator();
 
-			NeuralNetwork.IterationCompleted += OnIterationCompleted;
+            NeuralNetwork = network;
+            NeuralNetwork.IterationCompleted += OnIterationCompleted;
 
 			// При редактировании существующей сети скрыть обучение
 			if (networkId > 0)
