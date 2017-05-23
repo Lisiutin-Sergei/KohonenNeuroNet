@@ -65,11 +65,13 @@
     <Compile Include="Interface\Domain\IWeightRepository.cs" />
     <Compile Include="Interface\Domain\INeuronRepository.cs" />
     <Compile Include="Interface\Domain\INetworkRepository.cs" />
+    <Compile Include="Interface\Service\INetworkService.cs" />
     <Compile Include="Model\Domain\InputAttribute.cs" />
     <Compile Include="Model\Domain\Neuron.cs" />
     <Compile Include="Model\Domain\Network.cs" />
     <Compile Include="Model\Domain\Weight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\NetworkService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KohonenNeuroNet.Utilities\KohonenNeuroNet.Utilities.csproj">

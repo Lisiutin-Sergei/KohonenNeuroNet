@@ -1,12 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using KohonenNeuroNet.Data;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using KohonenNeuroNet.Data.UnitOfWork;
 using Microsoft.Extensions.Configuration;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-using System.Configuration;
 
 namespace KohonenNeuroNet.Tests
 {

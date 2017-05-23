@@ -58,12 +58,20 @@ namespace KohonenNeuroNet.Tests
 			using (UnitOfWork unitOfWork = new UnitOfWork(configuration))
 			{
 				Neuron insertedNeuron = null;
+				Network network = null;
 				try
 				{
+					network = new Network()
+					{
+						Name = "Test network"
+					};
+					var networkId = unitOfWork.NetworkRepository.Insert(network);
+					network = unitOfWork.NetworkRepository.GetByID(networkId);
+
 					// Create
 					var neuron = new Neuron()
 					{
-						NetworkId = 1,
+						NetworkId = network.Id,
 						OrderNumber = 2
 					};
 					var id = unitOfWork.NeuronRepository.Insert(neuron);
@@ -93,6 +101,10 @@ namespace KohonenNeuroNet.Tests
 					if (insertedNeuron != null)
 					{
 						unitOfWork.NeuronRepository.Delete(insertedNeuron);
+					}
+					if (network != null)
+					{
+						unitOfWork.NetworkRepository.Delete(network);
 					}
 				}
 			}

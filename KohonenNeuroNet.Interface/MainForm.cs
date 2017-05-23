@@ -1,4 +1,6 @@
-﻿using KohonenNeuroNet.NeuralNetwork.NetworkData;
+﻿using KohonenNeuroNet.Core.Interface.Service;
+using KohonenNeuroNet.Interface.DI;
+using KohonenNeuroNet.NeuralNetwork.NetworkData;
 using KohonenNeuroNet.NeuralNetwork.NeuralNetwork;
 using KohonenNeuroNet.Utilities;
 using KohonenNeuroNet.Utilities.Implementation.Reader;
@@ -16,17 +18,22 @@ namespace KohonenNeuroNet.Interface
         /// <summary>
         /// Утилита чтения данных из файла.
         /// </summary>
-        private IReader _reader;
+        private readonly IReader _reader;
 
         /// <summary>
         /// Конвертер для получения входных данных нейросети из DataTable.
         /// </summary>
-        private NetworkDataSetConverter _converter;
+        private readonly NetworkDataSetConverter _converter;
 
-        /// <summary>
-        /// Посредник для работы с данными в интерфейсе.
-        /// </summary>
-        private InterfaceMediator _interfaceMediator = new InterfaceMediator();
+		/// <summary>
+		/// Посредник для работы с данными в интерфейсе.
+		/// </summary>
+		private readonly InterfaceMediator _interfaceMediator;
+
+		/// <summary>
+		/// Сервис для работы с данными.
+		/// </summary>
+		private readonly INetworkService _networkService;
 
         /// <summary>
         /// Данные для обучения сети.
@@ -48,12 +55,23 @@ namespace KohonenNeuroNet.Interface
         /// </summary>
         public readonly AbstractNetwork NeuralNetwork = new SelfOrganizingMap();
 
-        public MainForm()
+        public MainForm(int? networkId = null)
         {
             InitializeComponent();
+
             _reader = new ExcelReader();
             _converter = new NetworkDataSetConverter();
-            NeuralNetwork.IterationCompleted += OnIterationCompleted;
+			_networkService = IoC.Instance.Resolve<INetworkService>();
+			_interfaceMediator = new InterfaceMediator();
+
+			NeuralNetwork.IterationCompleted += OnIterationCompleted;
+
+			// При редактировании существующей сети скрыть обучение
+			if (networkId > 0)
+			{
+				((Control)tabLearning).Enabled = false;
+				tabPanelMain.SelectedIndex = 1;
+			}
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using KohonenNeuroNet.Interface.DI;
+using Ninject;
+using System;
 using System.Windows.Forms;
 
 namespace KohonenNeuroNet.Interface
@@ -10,10 +12,13 @@ namespace KohonenNeuroNet.Interface
         /// </summary>
         [STAThread]
         static void Main()
-        {
-            Application.EnableVisualStyles();
+		{
+			var kernel = new StandardKernel();
+			IoC.Instance.Initialize(kernel);
+			
+			Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(IoC.Instance.Resolve<NetworksForm>());
         }
     }
 }
