@@ -258,6 +258,8 @@
 			this.dgvWeights.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dgvWeights.Location = new System.Drawing.Point(3, 3);
 			this.dgvWeights.Name = "dgvWeights";
+			this.dgvWeights.ReadOnly = true;
+			this.dgvWeights.RowHeadersVisible = false;
 			this.dgvWeights.Size = new System.Drawing.Size(804, 449);
 			this.dgvWeights.TabIndex = 0;
 			// 

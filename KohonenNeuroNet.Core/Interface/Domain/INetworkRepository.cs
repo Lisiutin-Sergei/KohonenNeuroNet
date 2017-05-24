@@ -13,31 +13,31 @@ namespace KohonenNeuroNet.Core.Interface.Domain
 		/// </summary>
 		/// <param name="id">Идентификатор нейронной сети.</param>
 		/// <returns>Нейронная сеть.</returns>
-		Network GetByID(int id);
+		NetworkBase GetByID(int id);
 
 		/// <summary>
 		/// Получить список нейронных сетей.
 		/// </summary>
 		/// <returns>Список нейронных сетей.</returns>
-		IEnumerable<Network> GetAll();
+		IEnumerable<NetworkBase> GetAll();
 
 		/// <summary>
 		/// Вставить новую нейронную сеть.
 		/// </summary>
 		/// <param name="entity">Нейронная сеть для сохранения.</param>
 		/// <returns>Идентификатор нового экземпляра сущности.</returns>
-		int Insert(Network entity);
+		int Insert(NetworkBase entity);
 
 		/// <summary>
 		/// Обновить нейронную сеть.
 		/// </summary>
 		/// <param name="entity">Нейронная сеть для сохранения.</param>
-		void Update(Network entity);
+		void Update(NetworkBase entity);
 
 		/// <summary>
 		/// Удалить нейронную сеть.
 		/// </summary>
 		/// <param name="entity">Нейронная сеть для удаления.</param>
-		void Delete(Network entity);
+		void Delete(NetworkBase entity);
 	}
 }

@@ -27,10 +27,10 @@ namespace KohonenNeuroNet.Tests
 				if (list.Any())
 				{
 					var network = list.First();
-					var foundNetwork = unitOfWork.NetworkRepository.GetByID(network.Id);
+					var foundNetwork = unitOfWork.NetworkRepository.GetByID(network.NetworkId);
 					Assert.IsNotNull(foundNetwork);
-					Assert.IsInstanceOfType(foundNetwork, typeof(Network));
-					Assert.AreEqual(network.Id, foundNetwork.Id);
+					Assert.IsInstanceOfType(foundNetwork, typeof(NetworkBase));
+					Assert.AreEqual(network.NetworkId, foundNetwork.NetworkId);
 				}
 			}
 		}
@@ -58,11 +58,11 @@ namespace KohonenNeuroNet.Tests
 			IConfigurationRoot configuration = GetConfiguration();
 			using (UnitOfWork unitOfWork = new UnitOfWork(configuration))
 			{
-				Network insertedNetwork = null;
+				NetworkBase insertedNetwork = null;
 				try
 				{
 					// Create
-					var network = new Network()
+					var network = new NetworkBase()
 					{
 						Name = "New test network"
 					};
@@ -72,7 +72,7 @@ namespace KohonenNeuroNet.Tests
 					// Read
 					insertedNetwork = unitOfWork.NetworkRepository.GetByID(id);
 					Assert.IsNotNull(insertedNetwork);
-					Assert.AreEqual(id, insertedNetwork.Id);
+					Assert.AreEqual(id, insertedNetwork.NetworkId);
 
 					// Update
 					insertedNetwork.Name = "Updated test network";
@@ -80,7 +80,7 @@ namespace KohonenNeuroNet.Tests
 
 					insertedNetwork = unitOfWork.NetworkRepository.GetByID(id);
 					Assert.IsNotNull(insertedNetwork);
-					Assert.AreEqual(id, insertedNetwork.Id);
+					Assert.AreEqual(id, insertedNetwork.NetworkId);
 					Assert.AreEqual("Updated test network", insertedNetwork.Name);
 
 					// Delete

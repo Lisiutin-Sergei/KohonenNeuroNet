@@ -40,7 +40,7 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         /// <param name="neuronWinner">Нейрон-победитель.</param>
         /// <param name="inputEntity">Входной вектор.</param>
         /// <param name="learningRate">Скорость обучения.</param>
-        public void StudyNeuron(Neuron neuronWinner, NetworkDataEntity inputEntity, double learningRate)
+        public void StudyNeuron(KohonenNeuron neuronWinner, NetworkDataEntity inputEntity, double learningRate)
         {
             for (int i = 0; i < neuronWinner.Weights.Count(); i++)
             {
@@ -54,11 +54,11 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         /// </summary>
         /// <param name="inputEntity">Входной вектор.</param>
         /// <returns>Нейрон-победитель для входного вектора.</returns>
-        public override Neuron GetNeuronWinner(NetworkDataEntity inputEntity)
+        public override KohonenNeuron GetNeuronWinner(NetworkDataEntity inputEntity)
         {
             var attributeValues = inputEntity.AttributeValues.Select(v => v.GetNormalizedValue(NormalizationType));
             double minDistance = GetEuclideanDistance(Neurons[0].Weights, attributeValues);
-            Neuron neuronWinner = Neurons[0];
+            KohonenNeuron neuronWinner = Neurons[0];
             for (int i = 1; i < Neurons.Count; i++)
             {
                 double currentDistance = GetEuclideanDistance(Neurons[i].Weights, attributeValues);

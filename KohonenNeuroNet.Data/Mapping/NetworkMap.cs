@@ -6,13 +6,13 @@ namespace KohonenNeuroNet.Data.Mapping
 	/// <summary>
 	/// Маппинг сущности "Нейронная сеть" на БД.
 	/// </summary>
-	public class NetworkMap : DommelEntityMap<Network>
+	public class NetworkMap : DommelEntityMap<NetworkBase>
 	{
 		public NetworkMap()
 		{
 			ToTable("network");
 
-			Map(e => e.Id)
+			Map(e => e.NetworkId)
 				.IsKey()
 				.IsIdentity()
 				.ToColumn("network_id");

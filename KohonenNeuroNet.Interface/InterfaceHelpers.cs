@@ -31,14 +31,22 @@ namespace KohonenNeuroNet.Interface
 
 			grid.Columns.Add("Вход/Нейрон", "Вход/Нейрон");
 			network.Neurons
-				.OrderBy(n => n.Number)
+				.OrderBy(n => n.NeuronNumber)
 				.ToList()
-				.ForEach(n => grid.Columns.Add(n.Number.ToString(), n.Number.ToString()));
+				.ForEach(n => grid.Columns.Add(n.NeuronNumber.ToString(), n.NeuronNumber.ToString()));
 
 			foreach (var attribute in attributes.OrderBy(a => a.OrderNumber))
 			{
 				var row = new List<object> { $"{attribute.OrderNumber}) {attribute.Name}" };
-				row.AddRange(network.Neurons.Select(n => (object)Math.Round(n.Weights[attribute.OrderNumber], weightsPrecision)));
+				foreach(var neuron in network.Neurons)
+				{
+					var weight = network.Weights
+						.FirstOrDefault(e =>
+							e.NeuronNumber == neuron.NeuronNumber &&
+							e.InputAttributeNumber == attribute.OrderNumber);
+					row.Add((object)Math.Round(weight.Value, weightsPrecision));
+				}
+				
 				grid.Rows.Add(row.ToArray());
 			}
 		}
@@ -83,22 +91,22 @@ namespace KohonenNeuroNet.Interface
 		/// <summary>
 		/// Отобразить кластеры в DataGridView.
 		/// </summary>
-		/// <param name="clasters">Кластеры.</param>
+		/// <param name="clusters">Кластеры.</param>
 		/// <param name="grid">DataGridView.</param>
-		public void DrawClasters(List<NetworkClaster> clasters, DataGridView grid)
+		public void DrawClasters(List<NetworkCluster> clusters, DataGridView grid)
 		{
 			grid.Rows.Clear();
 			grid.Columns.Clear();
-			if (clasters == null)
+			if (clusters == null)
 			{
 				return;
 			}
 
-			grid.Columns.Add("ClasterNumber", "Номер кластера");
+			grid.Columns.Add("ClusterNumber", "Номер кластера");
 			grid.Columns.Add("EntitiesCount", "Количество элементов");
-			foreach (var claster in clasters)
+			foreach (var cluster in clusters)
 			{
-				grid.Rows.Add((object)claster.Number, (object)claster.Entities.Count);
+				grid.Rows.Add((object)cluster.Number, (object)cluster.Entities.Count);
 			}
 		}
 

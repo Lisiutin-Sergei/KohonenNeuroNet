@@ -28,7 +28,7 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// </summary>
 		/// <param name="item">Модель нового экземпляра сущности.</param>
 		/// <returns>Идентификатор нового экземпляра сущности.</returns>
-		public int Insert(Weight item)
+		public int Insert(WeightBase item)
 		{
 			return (int)_dataContext.Connection.Insert(item, _dataContext.Transaction);
 		}
@@ -37,7 +37,7 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// Обновить существующий экземпляр сущности.
 		/// </summary>
 		/// <param name="item">Модель экземпляра сущности.</param>
-		public void Update(Weight item)
+		public void Update(WeightBase item)
 		{
 			_dataContext.Connection.Update(item, _dataContext.Transaction);
 		}
@@ -46,7 +46,7 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// Удалить существующий экземпляр сущности.
 		/// </summary>
 		/// <param name="item">Модель экземпляра сущности.</param>
-		public void Delete(Weight item)
+		public void Delete(WeightBase item)
 		{
 			_dataContext.Connection.Delete(item, _dataContext.Transaction);
 		}
@@ -55,9 +55,9 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// Получить список всех экземпляров сущности.
 		/// </summary>
 		/// <returns>Список всех экземпляров сущности.</returns>
-		public IEnumerable<Weight> GetAll()
+		public IEnumerable<WeightBase> GetAll()
 		{
-			return _dataContext.Connection.GetAll<Weight>().ToList();
+			return _dataContext.Connection.GetAll<WeightBase>().ToList();
 		}
 
 		/// <summary>
@@ -65,9 +65,9 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// </summary>
 		/// <param name="id">Идентификатор экземпляра сущности.</param>
 		/// <returns>Найденный экземпляр сущности.</returns>
-		public Weight GetByID(int id)
+		public WeightBase GetByID(int id)
 		{
-			return _dataContext.Connection.Get<Weight>(id);
+			return _dataContext.Connection.Get<WeightBase>(id);
 		}
 	}
 }

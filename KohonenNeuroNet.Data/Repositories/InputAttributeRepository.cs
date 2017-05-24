@@ -28,7 +28,7 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// </summary>
 		/// <param name="item">Модель нового экземпляра сущности.</param>
 		/// <returns>Идентификатор нового экземпляра сущности.</returns>
-		public int Insert(InputAttribute item)
+		public int Insert(InputAttributeBase item)
 		{
 			return (int)_dataContext.Connection.Insert(item, _dataContext.Transaction);
 		}
@@ -37,7 +37,7 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// Обновить существующий экземпляр сущности.
 		/// </summary>
 		/// <param name="item">Модель экземпляра сущности.</param>
-		public void Update(InputAttribute item)
+		public void Update(InputAttributeBase item)
 		{
 			_dataContext.Connection.Update(item, _dataContext.Transaction);
 		}
@@ -46,7 +46,7 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// Удалить существующий экземпляр сущности.
 		/// </summary>
 		/// <param name="item">Модель экземпляра сущности.</param>
-		public void Delete(InputAttribute item)
+		public void Delete(InputAttributeBase item)
 		{
 			_dataContext.Connection.Delete(item, _dataContext.Transaction);
 		}
@@ -55,9 +55,9 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// Получить список всех экземпляров сущности.
 		/// </summary>
 		/// <returns>Список всех экземпляров сущности.</returns>
-		public IEnumerable<InputAttribute> GetAll()
+		public IEnumerable<InputAttributeBase> GetAll()
 		{
-			return _dataContext.Connection.GetAll<InputAttribute>().ToList();
+			return _dataContext.Connection.GetAll<InputAttributeBase>().ToList();
 		}
 
 		/// <summary>
@@ -65,9 +65,9 @@ namespace KohonenNeuroNet.Data.Repositories
 		/// </summary>
 		/// <param name="id">Идентификатор экземпляра сущности.</param>
 		/// <returns>Найденный экземпляр сущности.</returns>
-		public InputAttribute GetByID(int id)
+		public InputAttributeBase GetByID(int id)
 		{
-			return _dataContext.Connection.Get<InputAttribute>(id);
+			return _dataContext.Connection.Get<InputAttributeBase>(id);
 		}
 	}
 }

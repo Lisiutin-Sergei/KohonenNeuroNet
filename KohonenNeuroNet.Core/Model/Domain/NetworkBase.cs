@@ -5,12 +5,12 @@ namespace KohonenNeuroNet.Core.Model.Domain
 	/// <summary>
 	/// Доменная модель нейронной сети для хранения.
 	/// </summary>
-	public class Network
+	public class NetworkBase
 	{
 		/// <summary>
 		/// Идентификатор нейронной сети.
 		/// </summary>
-		public int Id { get; set; }
+		public int NetworkId { get; set; }
 
 		/// <summary>
 		/// Название нейронной сети.

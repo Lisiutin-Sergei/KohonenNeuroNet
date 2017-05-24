@@ -1,4 +1,5 @@
-﻿using KohonenNeuroNet.Core.Model.Domain;
+﻿using KohonenNeuroNet.Core.Model.Business;
+using KohonenNeuroNet.Core.Model.Domain;
 using System.Collections.Generic;
 
 namespace KohonenNeuroNet.Core.Interface.Service
@@ -8,12 +9,18 @@ namespace KohonenNeuroNet.Core.Interface.Service
 	/// </summary>
 	public interface INetworkService
 	{
-		void SaveNetworkData();
+		void SaveNetworkData(NeuralNetworkData networkData);
 
 		/// <summary>
 		/// Загрузить список нейронных сетей.
 		/// </summary>
 		/// <returns>Список нейронных сетей.</returns>
-		List<Network> LoadAllNetworks();
+		List<NetworkBase> LoadAllNetworks();
+
+		/// <summary>
+		/// Получить данные о нейронной сети.
+		/// </summary>
+		/// <returns>Данные о нейронной сети.</returns>
+		NeuralNetworkData GetNetworkData(int networkId);
 	}
 }

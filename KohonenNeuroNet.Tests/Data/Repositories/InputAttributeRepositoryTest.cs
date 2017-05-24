@@ -27,10 +27,10 @@ namespace KohonenNeuroNet.Tests
 				if (list.Any())
 				{
 					var inputAttribute = list.First();
-					var foundInputAttribute = unitOfWork.InputAttributeRepository.GetByID(inputAttribute.Id);
+					var foundInputAttribute = unitOfWork.InputAttributeRepository.GetByID(inputAttribute.InputAttributeId);
 					Assert.IsNotNull(foundInputAttribute);
-					Assert.IsInstanceOfType(foundInputAttribute, typeof(InputAttribute));
-					Assert.AreEqual(inputAttribute.Id, foundInputAttribute.Id);
+					Assert.IsInstanceOfType(foundInputAttribute, typeof(InputAttributeBase));
+					Assert.AreEqual(inputAttribute.InputAttributeId, foundInputAttribute.InputAttributeId);
 				}
 			}
 		}
@@ -58,19 +58,19 @@ namespace KohonenNeuroNet.Tests
 			IConfigurationRoot configuration = GetConfiguration();
 			using (UnitOfWork unitOfWork = new UnitOfWork(configuration))
 			{
-				InputAttribute insertedInputAttribute = null;
-				Network network = null;
+				InputAttributeBase insertedInputAttribute = null;
+				NetworkBase network = null;
 				try
 				{
 					// Create
-					network = new Network()
+					network = new NetworkBase()
 					{
 						Name = "New test network"
 					};
 					var networkId = unitOfWork.NetworkRepository.Insert(network);
 					network = unitOfWork.NetworkRepository.GetByID(networkId);
 
-					var inputAttribute = new InputAttribute()
+					var inputAttribute = new InputAttributeBase()
 					{
 						Name = "Test Attribute",
 						NetworkId = networkId
@@ -80,7 +80,7 @@ namespace KohonenNeuroNet.Tests
 					// Read
 					insertedInputAttribute = unitOfWork.InputAttributeRepository.GetByID(attributeId);
 					Assert.IsNotNull(insertedInputAttribute);
-					Assert.AreEqual(attributeId, insertedInputAttribute.Id);
+					Assert.AreEqual(attributeId, insertedInputAttribute.InputAttributeId);
 
 					// Update
 					insertedInputAttribute.Name = "Updated Test Attribute";
@@ -88,7 +88,7 @@ namespace KohonenNeuroNet.Tests
 
 					insertedInputAttribute = unitOfWork.InputAttributeRepository.GetByID(attributeId);
 					Assert.IsNotNull(insertedInputAttribute);
-					Assert.AreEqual(attributeId, insertedInputAttribute.Id);
+					Assert.AreEqual(attributeId, insertedInputAttribute.InputAttributeId);
 					Assert.AreEqual("Updated Test Attribute", insertedInputAttribute.Name);
 
 					// Delete

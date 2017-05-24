@@ -25,10 +25,10 @@ namespace KohonenNeuroNet.Tests
 				if (list.Any())
 				{
 					var neuron = list.First();
-					var foundNeuron = unitOfWork.NeuronRepository.GetByID(neuron.Id);
+					var foundNeuron = unitOfWork.NeuronRepository.GetByID(neuron.NeuronId);
 					Assert.IsNotNull(foundNeuron);
-					Assert.IsInstanceOfType(foundNeuron, typeof(Neuron));
-					Assert.AreEqual(neuron.Id, foundNeuron.Id);
+					Assert.IsInstanceOfType(foundNeuron, typeof(NeuronBase));
+					Assert.AreEqual(neuron.NeuronId, foundNeuron.NeuronId);
 				}
 			}
 		}
@@ -56,11 +56,11 @@ namespace KohonenNeuroNet.Tests
 			IConfigurationRoot configuration = GetConfiguration();
 			using (UnitOfWork unitOfWork = new UnitOfWork(configuration))
 			{
-				Neuron insertedNeuron = null;
-				Network network = null;
+				NeuronBase insertedNeuron = null;
+				NetworkBase network = null;
 				try
 				{
-					network = new Network()
+					network = new NetworkBase()
 					{
 						Name = "Test network"
 					};
@@ -68,10 +68,10 @@ namespace KohonenNeuroNet.Tests
 					network = unitOfWork.NetworkRepository.GetByID(networkId);
 
 					// Create
-					var neuron = new Neuron()
+					var neuron = new NeuronBase()
 					{
-						NetworkId = network.Id,
-						OrderNumber = 2
+						NetworkId = network.NetworkId,
+						NeuronNumber = 2
 					};
 					var id = unitOfWork.NeuronRepository.Insert(neuron);
 					Assert.IsTrue(id > 0);
@@ -79,16 +79,16 @@ namespace KohonenNeuroNet.Tests
 					// Read
 					insertedNeuron = unitOfWork.NeuronRepository.GetByID(id);
 					Assert.IsNotNull(insertedNeuron);
-					Assert.AreEqual(id, insertedNeuron.Id);
+					Assert.AreEqual(id, insertedNeuron.NeuronId);
 
 					// Update
-					insertedNeuron.OrderNumber = 3;
+					insertedNeuron.NeuronNumber = 3;
 					unitOfWork.NeuronRepository.Update(insertedNeuron);
 
 					insertedNeuron = unitOfWork.NeuronRepository.GetByID(id);
 					Assert.IsNotNull(insertedNeuron);
-					Assert.AreEqual(id, insertedNeuron.Id);
-					Assert.AreEqual(3, insertedNeuron.OrderNumber);
+					Assert.AreEqual(id, insertedNeuron.NeuronId);
+					Assert.AreEqual(3, insertedNeuron.NeuronNumber);
 
 					// Delete
 					unitOfWork.NeuronRepository.Delete(insertedNeuron);

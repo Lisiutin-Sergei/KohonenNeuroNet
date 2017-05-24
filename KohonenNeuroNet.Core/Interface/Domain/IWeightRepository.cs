@@ -13,31 +13,31 @@ namespace KohonenNeuroNet.Core.Interface.Domain
 		/// </summary>
 		/// <param name="id">Идентификатор веса.</param>
 		/// <returns>Вес.</returns>
-		Weight GetByID(int id);
+		WeightBase GetByID(int id);
 
 		/// <summary>
 		/// Получить список весов.
 		/// </summary>
 		/// <returns>Список весов.</returns>
-		IEnumerable<Weight> GetAll();
+		IEnumerable<WeightBase> GetAll();
 
 		/// <summary>
 		/// Создать новый вес.
 		/// </summary>
 		/// <param name="entity">Вес для сохранения.</param>
 		/// <returns>Идентификатор нового экземпляра сущности.</returns>
-		int Insert(Weight entity);
+		int Insert(WeightBase entity);
 
 		/// <summary>
 		/// Обновить вес.
 		/// </summary>
 		/// <param name="entity">Вес для сохранения.</param>
-		void Update(Weight entity);
+		void Update(WeightBase entity);
 
 		/// <summary>
 		/// Удалить вес.
 		/// </summary>
 		/// <param name="entity">Вес для удаления.</param>
-		void Delete(Weight entity);
+		void Delete(WeightBase entity);
 	}
 }

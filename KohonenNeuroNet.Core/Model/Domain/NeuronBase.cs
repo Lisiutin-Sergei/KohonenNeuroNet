@@ -3,17 +3,17 @@
 	/// <summary>
 	/// Доменная модель нейрона сети для хранения.
 	/// </summary>
-	public class Neuron
+	public class NeuronBase
 	{
 		/// <summary>
 		/// Идентификатор нейрона.
 		/// </summary>
-		public int Id { get; set; }
+		public int NeuronId { get; set; }
 
 		/// <summary>
 		/// Порядковый номер нейрона.
 		/// </summary>
-		public int OrderNumber { get; set; }
+		public int NeuronNumber { get; set; }
 
 		/// <summary>
 		/// Ссылка на нейронную сеть.

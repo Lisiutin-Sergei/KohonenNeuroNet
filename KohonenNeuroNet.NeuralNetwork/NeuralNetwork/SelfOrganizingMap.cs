@@ -1,6 +1,8 @@
-﻿using KohonenNeuroNet.NeuralNetwork.NetworkData;
+﻿using KohonenNeuroNet.Core.Model.Business;
+using KohonenNeuroNet.Core.Model.Domain;
 using KohonenNeuroNet.NeuralNetwork.NormalizationType;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
@@ -15,33 +17,36 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         /// </summary>
         public override INormalizatiionType NormalizationType => new LinearNormalizationType_0_1();
 
-        /// <summary>
-        /// Обучить входной вектор (провести итерацию обучения).
-        /// </summary>
-        /// <param name="inputEntity">Входной вектор.</param>
-        /// <param name="currentIteration">Номер текущей итерации обучения.</param>
-        /// <param name="iterationsCount">Общее количество итераций обучения.</param>
-        /// <returns>Ошибка обучения.</returns>
-        public override double StudyInputEntity(NetworkDataEntity inputEntity, int currentIteration, int iterationsCount)
-        {
-            var neuronWinner = GetNeuronWinner(inputEntity);
+		/// <summary>
+		/// Обучить входной вектор (провести итерацию обучения).
+		/// </summary>
+		/// <param name="attributes">Значения входных атрибутов.</param>
+		/// <param name="currentIteration">Номер текущей итерации обучения.</param>
+		/// <param name="iterationsCount">Общее количество итераций обучения.</param>
+		/// <returns>Ошибка обучения.</returns>
+		public override double StudyInputEntity(List<InputAttributeValue> attributes, int currentIteration, int iterationsCount)
+		{
+			var neuronWinner = GetNeuronWinner(attributes);
             var learningRate = GetLearningRate(currentIteration, iterationsCount);
 
-            for (int i = 0; i < Neurons.Count; i++)
-            {
-                var distanceToNeuronWinner = GetEuclideanDistance(Neurons[i].Weights, neuronWinner.Weights);
-                var influenceCoefficient = GetInfluenceCoefficient(currentIteration, iterationsCount, distanceToNeuronWinner);
-                
-                for (int j = 0; j < inputEntity.AttributeValues.Count(); j++)
-                {
-                    Neurons[i].Weights[j] = Neurons[i].Weights[j] +
-                        influenceCoefficient * learningRate * (inputEntity.AttributeValues[j].GetNormalizedValue(NormalizationType) - Neurons[i].Weights[j]);
-                }
-            }
+			foreach(var currentNeuron in Neurons)
+			{
+				var distanceToNeuronWinner = GetEuclideanDistance(currentNeuron, neuronWinner);
+				var influenceCoefficient = GetInfluenceCoefficient(currentIteration, iterationsCount, distanceToNeuronWinner);
 
-            var attributeValues = inputEntity.AttributeValues.Select(v => v.GetNormalizedValue(NormalizationType));
-            double error = GetEuclideanDistance(neuronWinner.Weights, attributeValues);
-            return error;
+				foreach(var inputEntityAttribute in attributes)
+				{
+					var currentWeight = Weights.FirstOrDefault(e =>
+						e.NeuronNumber == currentNeuron.NeuronNumber &&
+						e.InputAttributeNumber == inputEntityAttribute.InputAttributeNumber);
+
+					currentWeight.Value = currentWeight.Value +
+						influenceCoefficient * learningRate * (inputEntityAttribute.Value - currentWeight.Value);
+				}
+			}
+
+			// Ошибка
+			return GetEuclideanDistance(neuronWinner, attributes);
         }
 
         /// <summary>
@@ -75,20 +80,21 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         /// </summary>
         /// <param name="inputEntity">Входной вектор.</param>
         /// <returns>Нейрон-победитель для входного вектора.</returns>
-        public override Neuron GetNeuronWinner(NetworkDataEntity inputEntity)
+        public override NeuronBase GetNeuronWinner(IEnumerable<InputAttributeValue> attributeValues)
         {
-            var attributeValues = inputEntity.AttributeValues.Select(v => v.GetNormalizedValue(NormalizationType));
-            double minDistance = GetEuclideanDistance(Neurons[0].Weights, attributeValues);
-            Neuron neuronWinner = Neurons[0];
+            double minDistance = GetEuclideanDistance(Neurons[0], attributeValues);
+            NeuronBase neuronWinner = Neurons[0];
+
             for (int i = 1; i < Neurons.Count; i++)
-            {
-                double currentDistance = GetEuclideanDistance(Neurons[i].Weights, attributeValues);
+			{
+				double currentDistance = GetEuclideanDistance(Neurons[i], attributeValues);
                 if (currentDistance < minDistance)
                 {
                     minDistance = currentDistance;
                     neuronWinner = Neurons[i];
                 }
             }
+
             return neuronWinner;
         }
 

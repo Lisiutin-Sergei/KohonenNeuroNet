@@ -5,7 +5,7 @@ namespace KohonenNeuroNet.NeuralNetwork.NetworkData
     /// <summary>
     /// Кластер.
     /// </summary>
-    public class NetworkClaster
+    public class NetworkCluster
     {
         /// <summary>
         /// Номер кластера.

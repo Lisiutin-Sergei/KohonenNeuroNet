@@ -41,14 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NetworkData\NetworkAttribute.cs" />
-    <Compile Include="NetworkData\NetworkClaster.cs" />
+    <Compile Include="NetworkData\NetworkCluster.cs" />
     <Compile Include="NetworkData\NetworkDataEntity.cs" />
     <Compile Include="NetworkData\NetworkDataSet.cs" />
     <Compile Include="NetworkData\NetworkDataSetConverter.cs" />
     <Compile Include="NetworkData\NetworkEntityAttributeValue.cs" />
     <Compile Include="NeuralNetwork\AbstractNetwork.cs" />
-    <Compile Include="NeuralNetwork\ClassicKohonenNetwork.cs" />
-    <Compile Include="NeuralNetwork\Neuron.cs" />
     <Compile Include="NeuralNetwork\SelfOrganizingMap.cs" />
     <Compile Include="NormalizationType\INormalizatiionType.cs" />
     <Compile Include="NormalizationType\LinearNormalizationType_0_1.cs" />
@@ -57,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KohonenNeuroNet.Core\KohonenNeuroNet.Core.csproj">
+      <Project>{57383278-0B96-475B-8D1E-0577A813D690}</Project>
+      <Name>KohonenNeuroNet.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KohonenNeuroNet.Utilities\KohonenNeuroNet.Utilities.csproj">
       <Project>{CB29F1EB-558C-448C-8BC6-73D087398227}</Project>
       <Name>KohonenNeuroNet.Utilities</Name>

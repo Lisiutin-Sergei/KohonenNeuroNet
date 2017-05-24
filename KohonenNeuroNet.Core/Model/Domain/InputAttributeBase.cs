@@ -3,12 +3,17 @@
 	/// <summary>
 	/// Доменная модель атрибута входной сущности для хранения.
 	/// </summary>
-	public class InputAttribute
+	public class InputAttributeBase
 	{
 		/// <summary>
 		/// Идентификатор атрибута.
 		/// </summary>
-		public int Id { get; set; }
+		public int InputAttributeId { get; set; }
+
+		/// <summary>
+		/// Порядковый номер входного атрибута.
+		/// </summary>
+		public int InputAttributeNumber { get; set; }
 
 		/// <summary>
 		/// Название атрибута.

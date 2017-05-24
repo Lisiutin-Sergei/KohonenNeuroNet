@@ -90,7 +90,7 @@ namespace KohonenNeuroNet.Interface
 		/// Обновить таблицу сетей.
 		/// </summary>
 		/// <param name="networks">Список сетей.</param>
-		private void RefreshNetworks(List<Network> networks)
+		private void RefreshNetworks(List<NetworkBase> networks)
 		{
 			dgvNetworks.Rows.Clear();
 			if (!(networks?.Any() ?? false))
@@ -100,7 +100,7 @@ namespace KohonenNeuroNet.Interface
 
 			foreach (var network in networks)
 			{
-				dgvNetworks.Rows.Add(network.Id, network.Name);
+				dgvNetworks.Rows.Add(network.NetworkId, network.Name);
 			}
 		}
 	}

@@ -6,13 +6,13 @@ namespace KohonenNeuroNet.Data.Mapping
 	/// <summary>
 	/// Маппинг сущности "Вес" на БД.
 	/// </summary>
-	public class WeightMap : DommelEntityMap<Weight>
+	public class WeightMap : DommelEntityMap<WeightBase>
 	{
 		public WeightMap()
 		{
 			ToTable("weight");
 
-			Map(e => e.Id)
+			Map(e => e.WeightId)
 				.IsKey()
 				.IsIdentity()
 				.ToColumn("weight_id");
@@ -22,6 +22,10 @@ namespace KohonenNeuroNet.Data.Mapping
 				.ToColumn("input_attribute_id");
 			Map(e => e.NeuronId)
 				.ToColumn("neuron_id");
+			Map(e => e.NeuronNumber)
+				.ToColumn("neuron_number");
+			Map(e => e.InputAttributeNumber)
+				.ToColumn("input_attribute_number");
 		}
 	}
 }

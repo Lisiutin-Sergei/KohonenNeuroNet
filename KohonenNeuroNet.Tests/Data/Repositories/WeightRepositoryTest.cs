@@ -25,10 +25,10 @@ namespace KohonenNeuroNet.Tests
 				if (list.Any())
 				{
 					var weight = list.First();
-					var foundWeight = unitOfWork.WeightRepository.GetByID(weight.Id);
+					var foundWeight = unitOfWork.WeightRepository.GetByID(weight.WeightId);
 					Assert.IsNotNull(foundWeight);
-					Assert.IsInstanceOfType(foundWeight, typeof(Weight));
-					Assert.AreEqual(weight.Id, foundWeight.Id);
+					Assert.IsInstanceOfType(foundWeight, typeof(WeightBase));
+					Assert.AreEqual(weight.WeightId, foundWeight.WeightId);
 				}
 			}
 		}
