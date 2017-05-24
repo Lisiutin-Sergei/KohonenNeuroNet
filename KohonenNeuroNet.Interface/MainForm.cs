@@ -47,19 +47,27 @@ namespace KohonenNeuroNet.Interface
 		/// </summary>
 		private NetworkDataSet _testingDataSet;
 
-		/// <summary>
-		/// Кластеры, получающиеся в результате тестирования.
-		/// </summary>
-		public List<NetworkCluster> Clasters = new List<NetworkCluster>();
+        /// <summary>
+        /// Кластеры, получающиеся в результате тестирования.
+        /// </summary>
+        private List<NetworkCluster> _clusters = new List<NetworkCluster>();
 
 		/// <summary>
 		/// Нейронная сеть.
 		/// </summary>
-		public readonly AbstractNetwork NeuralNetwork;
+		private readonly AbstractNetwork _neuralNetwork;
 
+        /// <summary>
+        /// Данные о нейронной сети из базы.
+        /// </summary>
 		private NetworkBase _networkBase;
-
-		public MainForm(INetworkService networkService, IReader reader, AbstractNetwork network, int? networkId = null)
+        
+		public MainForm(
+            INetworkService networkService, 
+            IReader reader, 
+            AbstractNetwork network, 
+            int? networkId = null, 
+            int? parentNeuronId = null)
 		{
 			InitializeComponent();
 
@@ -68,15 +76,26 @@ namespace KohonenNeuroNet.Interface
 			_converter = new NetworkDataSetConverter();
 			_interfaceMediator = new InterfaceMediator();
 
-			NeuralNetwork = network;
-			NeuralNetwork.IterationCompleted += OnNetworkWeightsChanged;
+			_neuralNetwork = network;
+			_neuralNetwork.IterationCompleted += OnNetworkWeightsChanged;
 
-			// При редактировании существующей сети скрыть обучение
-			if (networkId > 0)
+            // При редактировании существующей сети скрыть обучение
+            var isEdit = networkId > 0;
+            if (isEdit)
 			{
 				InitializeExistingNetwork(networkId ?? 0);
 			}
-		}
+            else
+            {
+                _networkBase = new NetworkBase
+                {
+                    ParentNeuronId = parentNeuronId
+                };
+            }
+
+            btnEditCluster.Enabled = isEdit;
+            btnSaveNetwork.Enabled = !isEdit;
+        }
 
 		/// <summary>
 		/// Инициализировать существующую сеть.
@@ -93,20 +112,20 @@ namespace KohonenNeuroNet.Interface
             tbNetworkName.Text = _networkBase.Name;
 
             // Заполнить нейроны полученными из БД
-            NeuralNetwork.Neurons = networkData.Neurons;
-            NeuralNetwork.InputAttributes = networkData.InputAttributes;
-            NeuralNetwork.Weights = networkData.Weights;
+            _neuralNetwork.Neurons = networkData.Neurons;
+            _neuralNetwork.InputAttributes = networkData.InputAttributes;
+            _neuralNetwork.Weights = networkData.Weights;
             
 			// Сформировать пустые кластеры
-			Clasters = NeuralNetwork.Neurons
+			_clusters = _neuralNetwork.Neurons
 				.Select(neuron => new NetworkCluster
 				{
 					Number = neuron.NeuronNumber
 				})
 				.ToList();
 
-            var attributes = NeuralNetwork.InputAttributes.Select(e => new NetworkAttribute { Name = e.Name, OrderNumber = e.InputAttributeNumber }).ToList();
-            _interfaceMediator.DrawNetworkWeights(NeuralNetwork, attributes, dgvWeights);
+            var attributes = _neuralNetwork.InputAttributes.Select(e => new NetworkAttribute { Name = e.Name, OrderNumber = e.InputAttributeNumber }).ToList();
+            _interfaceMediator.DrawNetworkWeights(_neuralNetwork, attributes, dgvWeights);
         }
 
 		/// <summary>
@@ -163,10 +182,10 @@ namespace KohonenNeuroNet.Interface
 
 			using (new CursorHandler())
 			{
-				NeuralNetwork.Study(_learningDataSet, clastersCount, iterationsCount);
+				_neuralNetwork.Study(_learningDataSet, clastersCount, iterationsCount);
 
 				// Сформировать пустые кластеры
-				Clasters = NeuralNetwork.Neurons
+				_clusters = _neuralNetwork.Neurons
 					.Select(neuron => new NetworkCluster
 					{
 						Number = neuron.NeuronNumber
@@ -228,11 +247,11 @@ namespace KohonenNeuroNet.Interface
 							Value = attr.Value
 						});
 
-					var result = NeuralNetwork.GetNeuronWinner(attributeValues).NeuronNumber;
-					Clasters.First(c => c.Number == result).Entities.Add(data);
+					var result = _neuralNetwork.GetNeuronWinner(attributeValues).NeuronNumber;
+					_clusters.First(c => c.Number == result).Entities.Add(data);
 				}
 
-				_interfaceMediator.DrawClasters(Clasters, dgvClasters);
+				_interfaceMediator.DrawClusters(_clusters, dgvClusters);
 				tabPanelMain.SelectedIndex = 3;
 			}
 		}
@@ -250,9 +269,9 @@ namespace KohonenNeuroNet.Interface
             var networkData = new NeuralNetworkData
 			{
 				Network = network,
-                InputAttributes = NeuralNetwork.InputAttributes,
-                Neurons = NeuralNetwork.Neurons,
-                Weights = NeuralNetwork.Weights
+                InputAttributes = _neuralNetwork.InputAttributes,
+                Neurons = _neuralNetwork.Neurons,
+                Weights = _neuralNetwork.Weights
             };
             _networkService.SaveNetworkData(networkData);
 
@@ -270,22 +289,60 @@ namespace KohonenNeuroNet.Interface
 			// Очистить таблицу с элементами кластера
 			_interfaceMediator.DrawDataIntoGrid(null, null, dgvClasterEntities);
 
-			if (dgvClasters.CurrentRow == null || dgvClasters.CurrentRow.Index < 0)
+			if (dgvClusters.CurrentRow == null || dgvClusters.CurrentRow.Index < 0)
 			{
 				return;
 			}
 
-			var selectedRow = dgvClasters.Rows[dgvClasters.CurrentRow.Index];
+			var selectedRow = dgvClusters.Rows[dgvClusters.CurrentRow.Index];
 			if (!selectedRow.Selected)
 			{
 				return;
 			}
 
 			var clusterNumber = (int)selectedRow.Cells["ClusterNumber"].Value;
-			var claster = Clasters.First(c => c.Number == clusterNumber);
+			var claster = _clusters.First(c => c.Number == clusterNumber);
 
 			_interfaceMediator.DrawDataIntoGrid(claster.Entities, _testingDataSet.Attributes, dgvClasterEntities);
 		}
+
+        /// <summary>
+        /// Изменить кластер - повторная кластеризация.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btn_EditCluster_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var isEdit = _networkBase?.NetworkId > 0;
+                if (!isEdit)
+                {
+                    throw new Exception("Невозможно изменить кластер у несохраненной нейронной сети.");
+                }
+                if (dgvClusters.SelectedRows.Count != 1)
+                {
+                    throw new Exception("Выберите кластер для изменения.");
+                }
+
+                var clusterNumber = (int)dgvClusters.SelectedRows[0].Cells[0].Value;
+                var neuron = _neuralNetwork.Neurons.First(n => n.NeuronNumber == clusterNumber);
+                if (neuron.NeuronId <= 0)
+                {
+                    throw new Exception("Невозможно изменить кластер у несохраненной нейронной сети.");
+                }
+                
+                var mainForm = IoC.Instance.Resolve<MainForm>(new IoC.NinjectArgument("parentNeuronId", neuron.NeuronId));
+                if (mainForm.ShowDialog() == DialogResult.OK)
+                {
+                    // Обновить кластеры
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
 		/// <summary>
 		/// Отобразить веса сети при их изменении.
@@ -294,7 +351,8 @@ namespace KohonenNeuroNet.Interface
 		/// <param name="e"></param>
 		private void OnNetworkWeightsChanged(object sender, EventArgs e)
 		{
-			_interfaceMediator.DrawNetworkWeights(NeuralNetwork, _learningDataSet.Attributes, dgvWeights);
+			_interfaceMediator.DrawNetworkWeights(_neuralNetwork, _learningDataSet.Attributes, dgvWeights);
 		}
+        
 	}
 }

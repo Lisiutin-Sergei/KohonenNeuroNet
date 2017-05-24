@@ -20,6 +20,8 @@ namespace KohonenNeuroNet.Data.Mapping
 				.ToColumn("network_name");
 			Map(e => e.CreatedOn)
 				.ToColumn("created_on");
-		}
+            Map(e => e.ParentNeuronId)
+                .ToColumn("parent_neuron_id");
+        }
 	}
 }

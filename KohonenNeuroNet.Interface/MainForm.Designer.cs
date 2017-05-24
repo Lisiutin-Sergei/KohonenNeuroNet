@@ -34,6 +34,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvInputLearningData = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbNetworkName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tbIterationsCount = new System.Windows.Forms.NumericUpDown();
             this.tbClastersCount = new System.Windows.Forms.NumericUpDown();
@@ -57,10 +59,9 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.dgvClasterEntities = new System.Windows.Forms.DataGridView();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.dgvClasters = new System.Windows.Forms.DataGridView();
+            this.dgvClusters = new System.Windows.Forms.DataGridView();
             this.btnSaveNetwork = new System.Windows.Forms.Button();
-            this.tbNetworkName = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.btnEditCluster = new System.Windows.Forms.Button();
             this.tabPanelMain.SuspendLayout();
             this.tabLearning.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -78,7 +79,7 @@
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClasterEntities)).BeginInit();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClasters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClusters)).BeginInit();
             this.SuspendLayout();
             // 
             // tabPanelMain
@@ -151,6 +152,22 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Параметры обучения";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 22);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(83, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Название сети";
+            // 
+            // tbNetworkName
+            // 
+            this.tbNetworkName.Location = new System.Drawing.Point(138, 19);
+            this.tbNetworkName.Name = "tbNetworkName";
+            this.tbNetworkName.Size = new System.Drawing.Size(660, 20);
+            this.tbNetworkName.TabIndex = 1;
             // 
             // label2
             // 
@@ -410,7 +427,8 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.dgvClasters);
+            this.groupBox5.Controls.Add(this.btnEditCluster);
+            this.groupBox5.Controls.Add(this.dgvClusters);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox5.Location = new System.Drawing.Point(3, 3);
             this.groupBox5.Name = "groupBox5";
@@ -421,18 +439,17 @@
             // 
             // dgvClasters
             // 
-            this.dgvClasters.AllowUserToAddRows = false;
-            this.dgvClasters.AllowUserToDeleteRows = false;
-            this.dgvClasters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClasters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvClasters.Location = new System.Drawing.Point(3, 16);
-            this.dgvClasters.Name = "dgvClasters";
-            this.dgvClasters.ReadOnly = true;
-            this.dgvClasters.RowHeadersVisible = false;
-            this.dgvClasters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClasters.Size = new System.Drawing.Size(798, 124);
-            this.dgvClasters.TabIndex = 9;
-            this.dgvClasters.SelectionChanged += new System.EventHandler(this.Dgv_Clasters_SelectionChanged);
+            this.dgvClusters.AllowUserToAddRows = false;
+            this.dgvClusters.AllowUserToDeleteRows = false;
+            this.dgvClusters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvClusters.Location = new System.Drawing.Point(3, 16);
+            this.dgvClusters.Name = "dgvClasters";
+            this.dgvClusters.ReadOnly = true;
+            this.dgvClusters.RowHeadersVisible = false;
+            this.dgvClusters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvClusters.Size = new System.Drawing.Size(746, 121);
+            this.dgvClusters.TabIndex = 9;
+            this.dgvClusters.SelectionChanged += new System.EventHandler(this.Dgv_Clasters_SelectionChanged);
             // 
             // btnSaveNetwork
             // 
@@ -444,21 +461,14 @@
             this.btnSaveNetwork.UseVisualStyleBackColor = true;
             this.btnSaveNetwork.Click += new System.EventHandler(this.Btn_SaveNetwork_Click);
             // 
-            // tbNetworkName
+            // btnEditCluster
             // 
-            this.tbNetworkName.Location = new System.Drawing.Point(138, 19);
-            this.tbNetworkName.Name = "tbNetworkName";
-            this.tbNetworkName.Size = new System.Drawing.Size(660, 20);
-            this.tbNetworkName.TabIndex = 1;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 22);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(83, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Название сети";
+            this.btnEditCluster.Image = ((System.Drawing.Image)(resources.GetObject("btnEditCluster.Image")));
+            this.btnEditCluster.Location = new System.Drawing.Point(755, 16);
+            this.btnEditCluster.Name = "btnEditCluster";
+            this.btnEditCluster.Size = new System.Drawing.Size(40, 40);
+            this.btnEditCluster.TabIndex = 10;
+            this.btnEditCluster.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -467,7 +477,9 @@
             this.ClientSize = new System.Drawing.Size(899, 505);
             this.Controls.Add(this.btnSaveNetwork);
             this.Controls.Add(this.tabPanelMain);
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(915, 544);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(915, 544);
             this.Name = "MainForm";
             this.Text = "Сеть Кохонена";
@@ -490,7 +502,7 @@
             this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvClasterEntities)).EndInit();
             this.groupBox5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClasters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClusters)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -512,7 +524,7 @@
         private System.Windows.Forms.NumericUpDown tbClastersCount;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabClasters;
-        private System.Windows.Forms.DataGridView dgvClasters;
+        private System.Windows.Forms.DataGridView dgvClusters;
         private System.Windows.Forms.DataGridView dgvClasterEntities;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
@@ -529,6 +541,7 @@
 		private System.Windows.Forms.Button btnSaveNetwork;
         private System.Windows.Forms.TextBox tbNetworkName;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnEditCluster;
     }
 }
 

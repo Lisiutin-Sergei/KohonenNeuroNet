@@ -12,6 +12,11 @@ namespace KohonenNeuroNet.Core.Model.Domain
 		/// </summary>
 		public int NetworkId { get; set; }
 
+        /// <summary>
+        /// Идентификатор родительского нейрона.
+        /// </summary>
+        public int? ParentNeuronId { get; set; }
+
 		/// <summary>
 		/// Название нейронной сети.
 		/// </summary>

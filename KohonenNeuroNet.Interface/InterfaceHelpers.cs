@@ -94,7 +94,7 @@ namespace KohonenNeuroNet.Interface
 		/// </summary>
 		/// <param name="clusters">Кластеры.</param>
 		/// <param name="grid">DataGridView.</param>
-		public void DrawClasters(List<NetworkCluster> clusters, DataGridView grid)
+		public void DrawClusters(List<NetworkCluster> clusters, DataGridView grid)
 		{
 			grid.Rows.Clear();
 			grid.Columns.Clear();
