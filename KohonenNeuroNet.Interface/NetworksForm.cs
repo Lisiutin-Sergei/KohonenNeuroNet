@@ -77,7 +77,12 @@ namespace KohonenNeuroNet.Interface
 
 				var networkId = (int)dgvNetworks.SelectedRows[0].Cells[0].Value;
                 var mainForm = IoC.Instance.Resolve<MainForm>(new IoC.NinjectArgument("networkId", networkId));
-                mainForm.ShowDialog();
+
+                if (mainForm.ShowDialog() == DialogResult.OK)
+                {
+                    var networks = _networkService.LoadAllNetworks();
+                    RefreshNetworks(networks);
+                } 
 			}
 			catch (Exception ex)
 			{
@@ -85,12 +90,41 @@ namespace KohonenNeuroNet.Interface
 			}
 		}
 
-
-		/// <summary>
-		/// Обновить таблицу сетей.
+        /// <summary>
+		/// Удаление нейронной сети.
 		/// </summary>
-		/// <param name="networks">Список сетей.</param>
-		private void RefreshNetworks(List<NetworkBase> networks)
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Btn_DeleteNetwork_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvNetworks.SelectedRows.Count != 1)
+                {
+                    MessageBox.Show("Выберите нейронную сеть для удаления.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (MessageBox.Show("Удалить выбранную нейронную сеть?", "Подтверждение", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    var networkId = (int)dgvNetworks.SelectedRows[0].Cells[0].Value;
+                    _networkService.DeleteNetwork(networkId);
+
+                    var networks = _networkService.LoadAllNetworks();
+                    RefreshNetworks(networks);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Обновить таблицу сетей.
+        /// </summary>
+        /// <param name="networks">Список сетей.</param>
+        private void RefreshNetworks(List<NetworkBase> networks)
 		{
 			dgvNetworks.Rows.Clear();
 			if (!(networks?.Any() ?? false))

@@ -57,7 +57,7 @@ namespace KohonenNeuroNet.Interface
 		/// </summary>
 		public readonly AbstractNetwork NeuralNetwork;
 
-		private int _networkId = 0;
+		private NetworkBase _networkBase;
 
 		public MainForm(INetworkService networkService, IReader reader, AbstractNetwork network, int? networkId = null)
 		{
@@ -72,10 +72,9 @@ namespace KohonenNeuroNet.Interface
 			NeuralNetwork.IterationCompleted += OnNetworkWeightsChanged;
 
 			// При редактировании существующей сети скрыть обучение
-			_networkId = networkId ?? 0;
-			if (_networkId > 0)
+			if (networkId > 0)
 			{
-				InitializeExistingNetwork(_networkId);
+				InitializeExistingNetwork(networkId ?? 0);
 			}
 		}
 
@@ -90,25 +89,14 @@ namespace KohonenNeuroNet.Interface
 
 			// Получить данные сети из базы
 			var networkData = _networkService.GetNetworkData(networkId);
+            _networkBase = networkData.Network;
+            tbNetworkName.Text = _networkBase.Name;
 
-			// Заполнить нейроны полученными из БД
-			NeuralNetwork.GenerateNeurons(networkData.InputAttributes.Count, networkData.Neurons.Count);
-			foreach (var neuron in networkData.Neurons)
-			{
-				foreach (var inputAttribute in networkData.InputAttributes)
-				{
-					var currentNetworkWeight = NeuralNetwork.Weights
-						.FirstOrDefault(e =>
-							e.NeuronNumber == neuron.NeuronNumber &&
-							e.InputAttributeNumber == inputAttribute.InputAttributeNumber);
-					var networkDataWeight = networkData.Weights
-						.FirstOrDefault(e =>
-							e.NeuronNumber == neuron.NeuronNumber &&
-							e.InputAttributeNumber == inputAttribute.InputAttributeNumber);
-					currentNetworkWeight.Value = networkDataWeight.Value;
-				}
-			}
-
+            // Заполнить нейроны полученными из БД
+            NeuralNetwork.Neurons = networkData.Neurons;
+            NeuralNetwork.InputAttributes = networkData.InputAttributes;
+            NeuralNetwork.Weights = networkData.Weights;
+            
 			// Сформировать пустые кластеры
 			Clasters = NeuralNetwork.Neurons
 				.Select(neuron => new NetworkCluster
@@ -117,8 +105,9 @@ namespace KohonenNeuroNet.Interface
 				})
 				.ToList();
 
-			OnNetworkWeightsChanged(null, null);
-		}
+            var attributes = NeuralNetwork.InputAttributes.Select(e => new NetworkAttribute { Name = e.Name, OrderNumber = e.InputAttributeNumber }).ToList();
+            _interfaceMediator.DrawNetworkWeights(NeuralNetwork, attributes, dgvWeights);
+        }
 
 		/// <summary>
 		/// Загрузить данные из файла для обучения сети.
@@ -255,20 +244,20 @@ namespace KohonenNeuroNet.Interface
 		/// <param name="e"></param>
 		private void Btn_SaveNetwork_Click(object sender, EventArgs e)
 		{
-			var networkData = new NeuralNetworkData
+            var network = _networkBase ?? new NetworkBase();
+            network.Name = tbNetworkName.Text;
+
+            var networkData = new NeuralNetworkData
 			{
-				Network = new NetworkBase
-				{
-					NetworkId = _networkId
-				},
-				InputAttributes =
-				{
-					new InputAttributeBase()
-					{
-					}
-				}
-			};
-			
+				Network = network,
+                InputAttributes = NeuralNetwork.InputAttributes,
+                Neurons = NeuralNetwork.Neurons,
+                Weights = NeuralNetwork.Weights
+            };
+            _networkService.SaveNetworkData(networkData);
+
+            DialogResult = DialogResult.OK;
+            Close();
 		}
 
 		/// <summary>

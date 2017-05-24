@@ -38,6 +38,7 @@ namespace KohonenNeuroNet.Interface
 			foreach (var attribute in attributes.OrderBy(a => a.OrderNumber))
 			{
 				var row = new List<object> { $"{attribute.OrderNumber}) {attribute.Name}" };
+
 				foreach(var neuron in network.Neurons)
 				{
 					var weight = network.Weights
