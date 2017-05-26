@@ -82,6 +82,30 @@ namespace KohonenNeuroNet.Interface
 			}
 		}
 
+        /// <summary>
+        /// Отобразить кластеры рекурсивно.
+        /// </summary>
+        /// <param name="cluster">Кластер для отображения.</param>
+        /// <param name="parentNode">Родительская вершина дерева.</param>
+        private void DrawClustersRecursive(NetworkCluster cluster, TreeNode parentNode)
+        {
+            var index = parentNode.Nodes.Add(new TreeNode
+            {
+                Text = $"{cluster.Number} ({cluster.Entities?.Count ?? 0})",
+                Tag = cluster
+            });
+
+            if (!(cluster.Clusters?.Any() ?? false))
+            {
+                return;
+            }
+
+            foreach(var subCluster in cluster.Clusters)
+            {
+                DrawClustersRecursive(subCluster, parentNode.Nodes[index]);
+            }
+        }
+
 		/// <summary>
 		/// Отобразить кластеры в DataGridView.
 		/// </summary>
@@ -97,16 +121,13 @@ namespace KohonenNeuroNet.Interface
 				return;
 			}
 
-			foreach (var cluster in clusters)
-			{
-				rootNode.Nodes.Add(
-					new TreeNode($"{cluster?.Number.ToString() ?? string.Empty} ({cluster?.Entities?.Count ?? 0})")
-					{
-						Tag = cluster?.Number
-					}
-				);
-			}
-		}
+            foreach(var cluster in clusters)
+            {
+                DrawClustersRecursive(cluster, rootNode);
+            }
+
+            rootNode.ExpandAll();
+        }
 
 	}
 }

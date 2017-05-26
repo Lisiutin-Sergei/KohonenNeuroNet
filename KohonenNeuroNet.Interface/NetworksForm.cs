@@ -47,7 +47,10 @@ namespace KohonenNeuroNet.Interface
 		{
 			try
 			{
-                var mainForm = IoC.Instance.Resolve<MainForm>(new IoC.NinjectArgument("networkId", null), new IoC.NinjectArgument("parentNeuronId", null));
+                var mainForm = IoC.Instance.Resolve<MainForm>(
+                    new IoC.NinjectArgument("networkId", null), 
+                    new IoC.NinjectArgument("parentNeuronId", null),
+                    new IoC.NinjectArgument("parentNeuronDataSet", null));
                 if (mainForm.ShowDialog() == DialogResult.OK)
 				{
 					var networks = _networkService.LoadAllNetworks();
@@ -76,7 +79,10 @@ namespace KohonenNeuroNet.Interface
 				}
 
 				var networkId = (int)dgvNetworks.SelectedRows[0].Cells[0].Value;
-                var mainForm = IoC.Instance.Resolve<MainForm>(new IoC.NinjectArgument("networkId", networkId), new IoC.NinjectArgument("parentNeuronId", null));
+                var mainForm = IoC.Instance.Resolve<MainForm>(
+                    new IoC.NinjectArgument("networkId", networkId), 
+                    new IoC.NinjectArgument("parentNeuronId", null),
+                    new IoC.NinjectArgument("parentNeuronDataSet", null));
 
                 if (mainForm.ShowDialog() == DialogResult.OK)
                 {

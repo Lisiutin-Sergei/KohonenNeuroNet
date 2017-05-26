@@ -22,5 +22,10 @@ namespace KohonenNeuroNet.NeuralNetwork.NetworkData
         /// Дочерние кластеры.
         /// </summary>
         public List<NetworkCluster> Clusters { get; set; }
+
+        /// <summary>
+        /// Нейронная сеть для дочерних кластеров.
+        /// </summary>
+        public int? NetworkId { get; set; }
     }
 }

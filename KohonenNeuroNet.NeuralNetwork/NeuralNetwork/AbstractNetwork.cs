@@ -90,6 +90,19 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         }
 
         /// <summary>
+        /// Инициализировать сеть.
+        /// </summary>
+        /// <param name="neurons">Нейроны.</param>
+        /// <param name="inputAttributes">Входные атрибуты.</param>
+        /// <param name="weights">Веса.</param>
+        public void InitializeNetwork(List<NeuronBase> neurons, List<InputAttributeBase> inputAttributes, List<WeightBase> weights)
+        {
+            Neurons = neurons;
+            InputAttributes = inputAttributes;
+            Weights = weights;
+        }
+
+        /// <summary>
         /// Обучить нейронную сеть.
         /// </summary>
         /// <param name="inputDataSet">Набор входных данных для обучения.</param>
