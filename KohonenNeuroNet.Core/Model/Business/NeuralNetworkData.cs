@@ -16,7 +16,7 @@ namespace KohonenNeuroNet.Core.Model.Business
 		/// <summary>
 		/// Список нейронов.
 		/// </summary>
-		public List<NeuronBase> Neurons { get; set; }
+		public List<NeuronData> Neurons { get; set; }
 
 		/// <summary>
 		/// Список входных атрибутов.

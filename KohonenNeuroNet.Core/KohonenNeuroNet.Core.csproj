@@ -67,7 +67,8 @@
     <Compile Include="Interface\Domain\INetworkRepository.cs" />
     <Compile Include="Interface\Service\INetworkService.cs" />
     <Compile Include="Model\Business\InputAttributeValue.cs" />
-    <Compile Include="Model\Business\NetworkFull.cs" />
+    <Compile Include="Model\Business\NeuralNetworkData.cs" />
+    <Compile Include="Model\Business\NeuronData.cs" />
     <Compile Include="Model\Domain\InputAttributeBase.cs" />
     <Compile Include="Model\Domain\NeuronBase.cs" />
     <Compile Include="Model\Domain\NetworkBase.cs" />

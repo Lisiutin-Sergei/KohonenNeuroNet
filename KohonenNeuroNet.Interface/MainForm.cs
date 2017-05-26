@@ -5,7 +5,6 @@ using KohonenNeuroNet.Interface.DI;
 using KohonenNeuroNet.NeuralNetwork.NetworkData;
 using KohonenNeuroNet.NeuralNetwork.NeuralNetwork;
 using KohonenNeuroNet.Utilities;
-using KohonenNeuroNet.Utilities.Implementation.Reader;
 using KohonenNeuroNet.Utilities.Interface.Reader;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ using System.Windows.Forms;
 
 namespace KohonenNeuroNet.Interface
 {
-	public partial class MainForm : Form
+    public partial class MainForm : Form
 	{
 		/// <summary>
 		/// Утилита чтения данных из файла.
@@ -112,20 +111,48 @@ namespace KohonenNeuroNet.Interface
             tbNetworkName.Text = _networkBase.Name;
 
             // Заполнить нейроны полученными из БД
-            _neuralNetwork.Neurons = networkData.Neurons;
+            _neuralNetwork.Neurons = networkData.Neurons.Select(e => e.Neuron).ToList();
             _neuralNetwork.InputAttributes = networkData.InputAttributes;
             _neuralNetwork.Weights = networkData.Weights;
             
 			// Сформировать пустые кластеры
-			_clusters = _neuralNetwork.Neurons
-				.Select(neuron => new NetworkCluster
+			_clusters = networkData.Neurons
+                .Select(neuron => new NetworkCluster
 				{
-					Number = neuron.NeuronNumber
+					Number = neuron.Neuron.NeuronNumber,
+                    Clusters = GetClusters(neuron.Network?.Neurons)
 				})
 				.ToList();
 			_interfaceMediator.DrawClusters(_clusters, tvClusters);
 			
             _interfaceMediator.DrawNetworkWeights(_neuralNetwork, _neuralNetwork.InputAttributes, dgvWeights);
+        }
+
+        /// <summary>
+        /// Сформировать дерево кластеров.
+        /// </summary>
+        /// <param name="neurons">Список нейронов.</param>
+        /// <returns>Дерево кластеров.</returns>
+        private List<NetworkCluster> GetClusters(List<NeuronData> neurons)
+        {
+            var list = new List<NetworkCluster>();
+
+            if (!(neurons?.Any() ?? false))
+            {
+                return list;
+            }
+
+            foreach(var neuron in neurons)
+            {
+                list.Add(new NetworkCluster
+                {
+                    Number = neuron.Neuron.NeuronNumber,
+                    Entities = new List<NetworkDataEntity>(),
+                    Clusters = GetClusters(neuron.Network?.Neurons)
+                });
+            }
+
+            return list;
         }
 
 		/// <summary>
@@ -282,7 +309,7 @@ namespace KohonenNeuroNet.Interface
 			{
 				Network = network,
                 InputAttributes = _neuralNetwork.InputAttributes,
-                Neurons = _neuralNetwork.Neurons,
+                Neurons = _neuralNetwork.Neurons.Select(n => new NeuronData(n, null)).ToList(),
                 Weights = _neuralNetwork.Weights
             };
             _networkService.SaveNetworkData(networkData);
@@ -344,6 +371,7 @@ namespace KohonenNeuroNet.Interface
                 if (mainForm.ShowDialog() == DialogResult.OK)
                 {
                     // Обновить кластеры
+                    InitializeExistingNetwork(_networkBase.NetworkId);
                 }
             }
             catch (Exception ex)
