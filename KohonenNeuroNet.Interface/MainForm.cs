@@ -34,7 +34,7 @@ namespace KohonenNeuroNet.Interface
         /// <summary>
         /// Посредник для работы с данными в интерфейсе.
         /// </summary>
-        private readonly InterfaceMediator _interfaceMediator;
+        private readonly InterfaceHelpers _interfaceMediator;
 
         /// <summary>
         /// Данные для обучения сети.
@@ -74,7 +74,7 @@ namespace KohonenNeuroNet.Interface
             _reader = reader;
             _networkService = networkService;
             _converter = new NetworkDataSetConverter();
-            _interfaceMediator = new InterfaceMediator();
+            _interfaceMediator = new InterfaceHelpers();
 
             _neuralNetwork = network;
             _neuralNetwork.IterationCompleted += OnNetworkWeightsChanged;

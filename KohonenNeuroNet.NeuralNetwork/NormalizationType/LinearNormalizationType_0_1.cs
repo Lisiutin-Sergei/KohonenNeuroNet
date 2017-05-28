@@ -9,11 +9,6 @@ namespace KohonenNeuroNet.NeuralNetwork.NormalizationType
 	public class LinearNormalizationType_0_1 : INormalizatiionType
     {
         /// <summary>
-        /// Рандомайзер.
-        /// </summary>
-        private readonly Random _random = new Random();
-
-        /// <summary>
         /// Получить нормализованное значение атрибута.
         /// </summary>
         /// <param name="attribute">Атрибут сущности.</param>

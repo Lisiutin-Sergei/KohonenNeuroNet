@@ -15,7 +15,7 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         /// <summary>
         /// Тип нормализации.
         /// </summary>
-        public override INormalizatiionType NormalizationType => new LinearNormalizationType_0_1();
+        public override INormalizatiionType NormalizationType => new LinearNormalizationType__1_1();
 
 		/// <summary>
 		/// Обучить входной вектор (провести итерацию обучения).

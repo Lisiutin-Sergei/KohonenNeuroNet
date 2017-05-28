@@ -12,7 +12,7 @@ namespace KohonenNeuroNet.Interface
 	/// <summary>
 	/// Посредник для работы с данными в интерфейсе.
 	/// </summary>
-	public class InterfaceMediator
+	public class InterfaceHelpers
 	{
 		/// <summary>
 		/// Отобразить веса сети в DataGridView.
