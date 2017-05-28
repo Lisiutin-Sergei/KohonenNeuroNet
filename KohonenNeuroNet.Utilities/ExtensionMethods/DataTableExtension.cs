@@ -28,9 +28,9 @@ namespace KohonenNeuroNet.Utilities.ExtensionMethods
                 }
                 return default(T);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return default(T);
+                throw new Exception($"Невозможно привести {o} к типу {typeof(T).ToString()}", e);
             }
         }
 
@@ -40,27 +40,31 @@ namespace KohonenNeuroNet.Utilities.ExtensionMethods
         /// <typeparam name="T">Тип данных колонки.</typeparam>
         /// <param name="table">Таблица с данными.</param>
         /// <param name="column">Колонка таблицы, по которой ищется максимум.</param>
+        /// <param name="rowsToSkip">Количество строк, которые пропускаем.</param>
         /// <returns>Максимальное значение колонки таблицы.</returns>
-        public static T Max<T>(this DataTable table, DataColumn column)
+        public static T Max<T>(this DataTable table, DataColumn column, int rowsToSkip = 1)
             where T: struct
         {
             return table
                 .AsEnumerable()
+                .Skip(rowsToSkip)
                 .Max(row => Convert<T>(row[column]));
         }
-        
+
         /// <summary>
         /// Получить минимальное значение колонки таблицы.
         /// </summary>
         /// <typeparam name="T">Тип данных колонки.</typeparam>
         /// <param name="table">Таблица с данными.</param>
         /// <param name="column">Колонка таблицы, по которой ищется максимум.</param>
+        /// <param name="rowsToSkip">Количество строк, которые пропускаем.</param>
         /// <returns>Минимальное значение колонки таблицы.</returns>
-        public static T Min<T>(this DataTable table, DataColumn column)
+        public static T Min<T>(this DataTable table, DataColumn column, int rowsToSkip = 1)
             where T : struct
         {
             return table
                 .AsEnumerable()
+                .Skip(rowsToSkip)
                 .Min(row => Convert<T>(row[column]));
         }
     }

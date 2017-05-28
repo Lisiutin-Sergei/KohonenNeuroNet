@@ -113,6 +113,20 @@ namespace KohonenNeuroNet.Interface
                     .ToList();
 
                 _interfaceMediator.DrawDataIntoGrid(_learningDataSet.Entities, _neuralNetwork.InputAttributes, dgvInputLearningData);
+                var normalizedData = _learningDataSet.Entities
+                            .Select(l => new NetworkDataEntity()
+                            {
+                                Name = l.Name,
+                                OrderNumber = l.OrderNumber,
+                                AttributeValues = l.AttributeValues.Select(a => new NetworkEntityAttributeValue
+                                {
+                                    Attribute = a.Attribute,
+                                    Value = a.GetNormalizedValue(_neuralNetwork.NormalizationType)
+                                }).ToList()
+                            })
+                            .ToList();
+                _interfaceMediator.DrawDataIntoGrid(normalizedData, _neuralNetwork.InputAttributes, dgvNormalizedLearningData);
+
                 _interfaceMediator.DrawDataIntoGrid(_testingDataSet.Entities, _neuralNetwork.InputAttributes, dgvTesingData);
             }
 
@@ -212,6 +226,20 @@ namespace KohonenNeuroNet.Interface
                             .ToList();
 
                         _interfaceMediator.DrawDataIntoGrid(_learningDataSet.Entities, _neuralNetwork.InputAttributes, dgvInputLearningData);
+
+                        var normalizedData = _learningDataSet.Entities
+                            .Select(l => new NetworkDataEntity()
+                            {
+                                Name = l.Name,
+                                OrderNumber = l.OrderNumber,
+                                AttributeValues = l.AttributeValues.Select(a => new NetworkEntityAttributeValue
+                                {
+                                    Attribute = a.Attribute,
+                                    Value = a.GetNormalizedValue(_neuralNetwork.NormalizationType)
+                                }).ToList()
+                            })
+                            .ToList();
+                        _interfaceMediator.DrawDataIntoGrid(normalizedData, _neuralNetwork.InputAttributes, dgvNormalizedLearningData);
                     }
                 }
             }
@@ -311,9 +339,10 @@ namespace KohonenNeuroNet.Interface
                         .Select(attr => new InputAttributeValue
                         {
                             InputAttributeNumber = attr.Attribute.OrderNumber,
-                            Value = attr.Value
-                        });
-
+                            Value = attr.GetNormalizedValue(_neuralNetwork.NormalizationType)
+                        })
+                        .ToList();
+                    
                     var result = _neuralNetwork.GetNeuronWinner(attributeValues).NeuronNumber;
                     _clusters.First(c => c.Number == result).Entities.Add(data);
                 }
@@ -354,11 +383,12 @@ namespace KohonenNeuroNet.Interface
             foreach (var data in cluster.Entities)
             {
                 var attributeValues = data.AttributeValues
-                        .Select(attr => new InputAttributeValue
-                        {
-                            InputAttributeNumber = attr.Attribute.OrderNumber,
-                            Value = attr.Value
-                        });
+                    .Select(attr => new InputAttributeValue
+                    {
+                        InputAttributeNumber = attr.Attribute.OrderNumber,
+                        Value = attr.GetNormalizedValue(_neuralNetwork.NormalizationType)
+                    })
+                    .ToList();
 
                 var result = neuralNetwork.GetNeuronWinner(attributeValues).NeuronNumber;
                 cluster.Clusters.First(c => c.Number == result).Entities.Add(data);
@@ -418,7 +448,7 @@ namespace KohonenNeuroNet.Interface
             // Повторно кластеризовать можно только кластер, у которого есть данные
             btnEditCluster.Enabled = tvClusters.SelectedNode.Level == 1 && isEdit && (cluster.Entities?.Count ?? 0) > 0;
         }
-        
+
         /// <summary>
         /// Изменить кластер - повторная кластеризация.
         /// </summary>
@@ -444,7 +474,7 @@ namespace KohonenNeuroNet.Interface
                 {
                     throw new Exception("Невозможно изменить кластер у несохраненной нейронной сети.");
                 }
-                
+
                 var dataSet = new NetworkDataSet()
                 {
                     Entities = _testingDataSet.Entities

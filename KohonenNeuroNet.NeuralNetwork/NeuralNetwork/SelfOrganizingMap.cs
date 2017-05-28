@@ -15,7 +15,7 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         /// <summary>
         /// Тип нормализации.
         /// </summary>
-        public override INormalizatiionType NormalizationType => new LinearNormalizationType__1_1();
+        public override INormalizatiionType NormalizationType => new LinearNormalizationType_0_1();
 
 		/// <summary>
 		/// Обучить входной вектор (провести итерацию обучения).
@@ -58,21 +58,29 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         /// <returns>Коэффициент влияния.</returns>
         public double GetInfluenceCoefficient(int currentIteration, int iterationsCount, double distanceToNeuronWinner)
         {
-            var nc = GetNeighboorhoodCoefficient(currentIteration, iterationsCount, Neurons.Count);
-            return Math.Exp(-Math.Pow(distanceToNeuronWinner, 2) / (2 * Math.Pow(nc, 2)));
+            // Сигма
+            var nc = GetNeighboorhoodCoefficient(currentIteration, iterationsCount);
+
+            return distanceToNeuronWinner >= nc
+                ? 0
+                : Math.Exp(-Math.Pow(distanceToNeuronWinner, 2) / (2 * Math.Pow(nc, 2)));
         }
+
+        /// <summary>
+        /// Начальное значение коэффициента соседства.
+        /// </summary>
+        private const double INITIAL_NEIGHBOORHOOD_COEFFICIENT = 0.1;
 
         /// <summary>
         /// Функция соседства.
         /// </summary>
         /// <param name="currentIteration">Номер итерации.</param>
         /// <param name="iterationsCount">Общее количество итераций обучения.</param>
-        /// <param name="neuronsCount">Количество нейронов.</param>
         /// <returns>Коэффициент соседства.</returns>
-        public double GetNeighboorhoodCoefficient(int currentIteration, int iterationsCount, int neuronsCount)
+        private double GetNeighboorhoodCoefficient(int currentIteration, int iterationsCount)
         {
-            var n = iterationsCount / Math.Log10(neuronsCount);
-            return Math.Exp(-currentIteration / n);
+            var n = iterationsCount / Math.Log10(INITIAL_NEIGHBOORHOOD_COEFFICIENT);
+            return INITIAL_NEIGHBOORHOOD_COEFFICIENT * Math.Exp(-(currentIteration + 1) / n);
         }
 
         /// <summary>
@@ -99,6 +107,11 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         }
 
         /// <summary>
+        /// Начальное значение скорости обучения.
+        /// </summary>
+        private const double INITIAL_LEARNING_RATE = 0.1;
+
+        /// <summary>
         /// Получить скорость обучения на текущем цикле обучения.
         /// </summary>
         /// <param name="currentIteration">Текущая итерация обучения.</param>
@@ -106,7 +119,7 @@ namespace KohonenNeuroNet.NeuralNetwork.NeuralNetwork
         /// <returns>Скорость обучения.</returns>
         public override double GetLearningRate(int currentIteration, int iterationsCount)
         {
-            return 0.1 * Math.Exp(-(double)currentIteration / iterationsCount);
+            return INITIAL_LEARNING_RATE * Math.Exp(-(double)(currentIteration + 1) / iterationsCount);
         }
     }
 }

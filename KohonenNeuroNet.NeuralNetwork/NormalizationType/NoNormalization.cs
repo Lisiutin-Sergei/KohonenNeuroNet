@@ -4,9 +4,9 @@ using System;
 namespace KohonenNeuroNet.NeuralNetwork.NormalizationType
 {
 	/// <summary>
-	/// Линейная нормализация, от 0 до 1.
+	/// Без нормализации.
 	/// </summary>
-	public class LinearNormalizationType_0_1 : INormalizatiionType
+	public class NoNormalization : INormalizatiionType
     {
         /// <summary>
         /// Получить нормализованное значение атрибута.
@@ -15,9 +15,7 @@ namespace KohonenNeuroNet.NeuralNetwork.NormalizationType
         /// <returns>Нормализованное значение атрибута.</returns>
         public double GetAttributeValue(NetworkEntityAttributeValue attribute)
         {
-            return attribute.Attribute.Max == attribute.Attribute.Min 
-                ? 0 
-                : Math.Abs(attribute.Value - attribute.Attribute.Min) / Math.Abs(attribute.Attribute.Max - attribute.Attribute.Min);
+            return attribute.Value;
         }
 
         /// <summary>
@@ -27,18 +25,7 @@ namespace KohonenNeuroNet.NeuralNetwork.NormalizationType
         /// <returns>Нормализованное значение веса нейрона.</returns>
         public double GetNeuronWeight(int inputsCount)
         {
-            double nextDouble = 0;
-            var minValue = 0.5 - 1 / Math.Sqrt(inputsCount);
-            var maxValue = 0.5 + Math.Sqrt(inputsCount);
-
-            while (true)
-            {
-                nextDouble = Randomizer.Instance.NextDouble();
-                if (nextDouble >= minValue && nextDouble <= maxValue)
-                {
-                    return nextDouble;
-                }
-            }
+            return Randomizer.Instance.NextDouble();
         }
     }
 }

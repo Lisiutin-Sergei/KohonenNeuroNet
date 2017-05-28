@@ -59,8 +59,8 @@ namespace KohonenNeuroNet.NeuralNetwork.NetworkData
                 {
                     OrderNumber = i - firstAttributeColumnIndex,
                     Name = data.Rows[0][i]?.ToString() ?? string.Empty,
-                    Min = data.Min<double>(column),
-                    Max = data.Max<double>(column)
+                    Min = data.Min<double>(column, firstAttributeColumnIndex),
+                    Max = data.Max<double>(column, firstAttributeColumnIndex)
                 };
                 attributes.Add(attribute);
             }

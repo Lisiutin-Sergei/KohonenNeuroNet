@@ -28,12 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Нейронная сеть");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Нейронная сеть");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabPanelMain = new System.Windows.Forms.TabControl();
             this.tabLearning = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tabLearningData = new System.Windows.Forms.TabControl();
+            this.tabPageLarningData = new System.Windows.Forms.TabPage();
             this.dgvInputLearningData = new System.Windows.Forms.DataGridView();
+            this.tabPageNormalizedData = new System.Windows.Forms.TabPage();
+            this.dgvNormalizedLearningData = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tbNetworkName = new System.Windows.Forms.TextBox();
@@ -66,7 +70,11 @@
             this.tabPanelMain.SuspendLayout();
             this.tabLearning.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tabLearningData.SuspendLayout();
+            this.tabPageLarningData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInputLearningData)).BeginInit();
+            this.tabPageNormalizedData.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNormalizedLearningData)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbIterationsCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbClastersCount)).BeginInit();
@@ -108,7 +116,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dgvInputLearningData);
+            this.groupBox2.Controls.Add(this.tabLearningData);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 133);
             this.groupBox2.Name = "groupBox2";
@@ -116,6 +124,28 @@
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Выборка для обучения";
+            // 
+            // tabLearningData
+            // 
+            this.tabLearningData.Controls.Add(this.tabPageLarningData);
+            this.tabLearningData.Controls.Add(this.tabPageNormalizedData);
+            this.tabLearningData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabLearningData.Location = new System.Drawing.Point(3, 16);
+            this.tabLearningData.Name = "tabLearningData";
+            this.tabLearningData.SelectedIndex = 0;
+            this.tabLearningData.Size = new System.Drawing.Size(798, 300);
+            this.tabLearningData.TabIndex = 9;
+            // 
+            // tabPageLarningData
+            // 
+            this.tabPageLarningData.Controls.Add(this.dgvInputLearningData);
+            this.tabPageLarningData.Location = new System.Drawing.Point(4, 22);
+            this.tabPageLarningData.Name = "tabPageLarningData";
+            this.tabPageLarningData.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLarningData.Size = new System.Drawing.Size(790, 274);
+            this.tabPageLarningData.TabIndex = 0;
+            this.tabPageLarningData.Text = "Данные";
+            this.tabPageLarningData.UseVisualStyleBackColor = true;
             // 
             // dgvInputLearningData
             // 
@@ -125,13 +155,39 @@
             this.dgvInputLearningData.AllowUserToResizeRows = false;
             this.dgvInputLearningData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInputLearningData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvInputLearningData.Location = new System.Drawing.Point(3, 16);
+            this.dgvInputLearningData.Location = new System.Drawing.Point(3, 3);
             this.dgvInputLearningData.Name = "dgvInputLearningData";
             this.dgvInputLearningData.ReadOnly = true;
             this.dgvInputLearningData.RowHeadersVisible = false;
             this.dgvInputLearningData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvInputLearningData.Size = new System.Drawing.Size(798, 300);
+            this.dgvInputLearningData.Size = new System.Drawing.Size(784, 268);
             this.dgvInputLearningData.TabIndex = 0;
+            // 
+            // tabPageNormalizedData
+            // 
+            this.tabPageNormalizedData.Controls.Add(this.dgvNormalizedLearningData);
+            this.tabPageNormalizedData.Location = new System.Drawing.Point(4, 22);
+            this.tabPageNormalizedData.Name = "tabPageNormalizedData";
+            this.tabPageNormalizedData.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageNormalizedData.Size = new System.Drawing.Size(790, 274);
+            this.tabPageNormalizedData.TabIndex = 1;
+            this.tabPageNormalizedData.Text = "Нормализация";
+            this.tabPageNormalizedData.UseVisualStyleBackColor = true;
+            // 
+            // dgvNormalizedLearningData
+            // 
+            this.dgvNormalizedLearningData.AllowUserToAddRows = false;
+            this.dgvNormalizedLearningData.AllowUserToDeleteRows = false;
+            this.dgvNormalizedLearningData.AllowUserToResizeColumns = false;
+            this.dgvNormalizedLearningData.AllowUserToResizeRows = false;
+            this.dgvNormalizedLearningData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvNormalizedLearningData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvNormalizedLearningData.Location = new System.Drawing.Point(3, 3);
+            this.dgvNormalizedLearningData.Name = "dgvNormalizedLearningData";
+            this.dgvNormalizedLearningData.ReadOnly = true;
+            this.dgvNormalizedLearningData.RowHeadersVisible = false;
+            this.dgvNormalizedLearningData.Size = new System.Drawing.Size(784, 268);
+            this.dgvNormalizedLearningData.TabIndex = 1;
             // 
             // groupBox1
             // 
@@ -442,11 +498,11 @@
             this.tvClusters.FullRowSelect = true;
             this.tvClusters.Location = new System.Drawing.Point(6, 16);
             this.tvClusters.Name = "tvClusters";
-            treeNode1.Name = "Root";
-            treeNode1.Tag = "";
-            treeNode1.Text = "Нейронная сеть";
+            treeNode2.Name = "Root";
+            treeNode2.Tag = "";
+            treeNode2.Text = "Нейронная сеть";
             this.tvClusters.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.tvClusters.Size = new System.Drawing.Size(258, 427);
             this.tvClusters.TabIndex = 11;
             this.tvClusters.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Tv_Clusters_SelectionChanged);
@@ -487,7 +543,11 @@
             this.tabPanelMain.ResumeLayout(false);
             this.tabLearning.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.tabLearningData.ResumeLayout(false);
+            this.tabPageLarningData.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInputLearningData)).EndInit();
+            this.tabPageNormalizedData.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNormalizedLearningData)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbIterationsCount)).EndInit();
@@ -542,6 +602,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnEditCluster;
 		private System.Windows.Forms.TreeView tvClusters;
-	}
+        private System.Windows.Forms.TabControl tabLearningData;
+        private System.Windows.Forms.TabPage tabPageLarningData;
+        private System.Windows.Forms.TabPage tabPageNormalizedData;
+        private System.Windows.Forms.DataGridView dgvNormalizedLearningData;
+    }
 }
 
