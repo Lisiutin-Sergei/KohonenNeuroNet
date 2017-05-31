@@ -15,7 +15,7 @@ namespace KohonenNeuroNet.Data.UnitOfWork
 		/// <returns>Экземпляр единицы работы.</returns>
 		public IUnitOfWork Create(IConfiguration configuration)
 		{
-			return new UnitOfWork(configuration);
+			return new MsSqlUnitOfWork(configuration);
 		}
 	}
 }

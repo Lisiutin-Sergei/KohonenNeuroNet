@@ -202,23 +202,22 @@ namespace KohonenNeuroNet.Core.Service
         /// </summary>
         /// <param name="unitOfWork">Модуль для работы с БД.</param>
         /// <param name="neuronId">Идентификатор нейрона.</param>
-        private void DeleteNetworkRecursive(IUnitOfWork unitOfWork, int neuronId)
+        private void DeleteNetworkRecursive(IUnitOfWork unitOfWork, NeuronData neuron)
         {
-            var network = GetNetworkRecursive(unitOfWork, neuronId);
-            if (network == null)
+            if (neuron == null || neuron.Network == null)
             {
                 return;
             }
 
-            foreach (var currentNeuron in network.Neurons)
+            foreach (var currentNeuron in neuron.Network.Neurons)
             {
-                DeleteNetworkRecursive(unitOfWork, currentNeuron.Neuron.NeuronId);
+                DeleteNetworkRecursive(unitOfWork, currentNeuron);
             }
 
-            network.Weights.ForEach(w => unitOfWork.WeightRepository.Delete(w));
-            network.InputAttributes.ForEach(i => unitOfWork.InputAttributeRepository.Delete(i));
-            network.Neurons.ForEach(n => unitOfWork.NeuronRepository.Delete(n.Neuron));
-            unitOfWork.NetworkRepository.Delete(network.Network);
+            neuron.Network.Weights.ForEach(w => unitOfWork.WeightRepository.Delete(w));
+            neuron.Network.InputAttributes.ForEach(i => unitOfWork.InputAttributeRepository.Delete(i));
+            neuron.Network.Neurons.ForEach(n => unitOfWork.NeuronRepository.Delete(n.Neuron));
+            unitOfWork.NetworkRepository.Delete(neuron.Network.Network);
         }
 
         /// <summary>
@@ -229,35 +228,20 @@ namespace KohonenNeuroNet.Core.Service
         {
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory.Create(_configuration))
             {
-                var network = unitOfWork.NetworkRepository.GetByID(networkId);
-
-                var neurons = unitOfWork.NeuronRepository.GetAll()
-                    .Where(e => e.NetworkId == networkId)
-                    .ToList();
-
-                var inputAttributes = unitOfWork.InputAttributeRepository.GetAll()
-                    .Where(e => e.NetworkId == networkId)
-                    .ToList();
-
-                var weights = unitOfWork.WeightRepository.GetAll()
-                    .Where(e => 
-                        inputAttributes.Any(ia => ia.InputAttributeId == e.InputAttributeId) ||
-                        neurons.Any(n => n.NeuronId == e.NeuronId)
-                    )
-                    .ToList();
+                var network = GetNetworkData(networkId);
 
                 unitOfWork.BeginTransaction();
                 try
                 {
-                    foreach(var neuron in neurons)
+                    foreach(var neuron in network.Neurons)
                     {
-                        DeleteNetworkRecursive(unitOfWork, neuron.NeuronId);
+                        DeleteNetworkRecursive(unitOfWork, neuron);
                     }
 
-                    weights.ForEach(w => unitOfWork.WeightRepository.Delete(w));
-                    inputAttributes.ForEach(i => unitOfWork.InputAttributeRepository.Delete(i));
-                    neurons.ForEach(n => unitOfWork.NeuronRepository.Delete(n));
-                    unitOfWork.NetworkRepository.Delete(network);
+                    network.Weights.ForEach(w => unitOfWork.WeightRepository.Delete(w));
+                    network.InputAttributes.ForEach(i => unitOfWork.InputAttributeRepository.Delete(i));
+                    network.Neurons.ForEach(n => unitOfWork.NeuronRepository.Delete(n.Neuron));
+                    unitOfWork.NetworkRepository.Delete(network.Network);
 
                     unitOfWork.CommitTransaction();
                 }

@@ -16,14 +16,16 @@ namespace KohonenNeuroNet.Interface.DI
 		protected IoC()
 		{
 			var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"]?.ConnectionString;
-			if (connectionString == null)
+            var msSqlConnection = ConfigurationManager.ConnectionStrings["MsSqlConnection"]?.ConnectionString;
+            if (connectionString == null || msSqlConnection == null)
 			{
 				throw new Exception("Не задана строка подключения к БД");
 			}
 			var config = new List<KeyValuePair<string, string>>()
 			{
-				new KeyValuePair<string, string>("Data:DbContext:ConnectionString", connectionString)
-			};
+				new KeyValuePair<string, string>("Data:DbContext:ConnectionString", connectionString),
+                new KeyValuePair<string, string>("Data:DbContext:MsSqlConnection", msSqlConnection),
+            };
 
 			Configuration = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())

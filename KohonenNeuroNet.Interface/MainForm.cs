@@ -131,7 +131,7 @@ namespace KohonenNeuroNet.Interface
             }
 
             btnEditCluster.Enabled = isEdit;
-            btnSaveNetwork.Enabled = !isEdit;
+            SetSaveButtonEnabled();
         }
 
         /// <summary>
@@ -202,46 +202,53 @@ namespace KohonenNeuroNet.Interface
         /// <param name="e"></param>
         private void Btn_ChooseLearningFile_Click(object sender, EventArgs e)
         {
-            using (var openFileDialog = new OpenFileDialog())
+            try
             {
-                openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
-                openFileDialog.InitialDirectory = CommonUtils.ResourcesDirectory;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                using (var openFileDialog = new OpenFileDialog())
                 {
-                    using (new CursorHandler())
+                    openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+                    openFileDialog.InitialDirectory = CommonUtils.ResourcesDirectory;
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        var excelFilePath = Path.Combine(CommonUtils.ResourcesDirectory, openFileDialog.FileName);
-                        tbLearningFile.Text = excelFilePath;
+                        using (new CursorHandler())
+                        {
+                            var excelFilePath = Path.Combine(CommonUtils.ResourcesDirectory, openFileDialog.FileName);
+                            tbLearningFile.Text = excelFilePath;
 
-                        var learningDataTable = _reader.ReadFromFile(excelFilePath);
+                            var learningDataTable = _reader.ReadFromFile(excelFilePath);
 
-                        _learningDataSet = _converter.Convert(learningDataTable);
-                        _neuralNetwork.InputAttributes = _learningDataSet.Attributes
-                            .Select(a => new InputAttributeBase
-                            {
-                                InputAttributeNumber = a.OrderNumber,
-                                Name = a.Name
-                            })
-                            .ToList();
-
-                        _interfaceMediator.DrawDataIntoGrid(_learningDataSet.Entities, _neuralNetwork.InputAttributes, dgvInputLearningData);
-
-                        var normalizedData = _learningDataSet.Entities
-                            .Select(l => new NetworkDataEntity()
-                            {
-                                Name = l.Name,
-                                OrderNumber = l.OrderNumber,
-                                AttributeValues = l.AttributeValues.Select(a => new NetworkEntityAttributeValue
+                            _learningDataSet = _converter.Convert(learningDataTable);
+                            _neuralNetwork.InputAttributes = _learningDataSet.Attributes
+                                .Select(a => new InputAttributeBase
                                 {
-                                    Attribute = a.Attribute,
-                                    Value = a.GetNormalizedValue(_neuralNetwork.NormalizationType)
-                                }).ToList()
-                            })
-                            .ToList();
-                        _interfaceMediator.DrawDataIntoGrid(normalizedData, _neuralNetwork.InputAttributes, dgvNormalizedLearningData);
+                                    InputAttributeNumber = a.OrderNumber,
+                                    Name = a.Name
+                                })
+                                .ToList();
+
+                            _interfaceMediator.DrawDataIntoGrid(_learningDataSet.Entities, _neuralNetwork.InputAttributes, dgvInputLearningData);
+
+                            var normalizedData = _learningDataSet.Entities
+                                .Select(l => new NetworkDataEntity()
+                                {
+                                    Name = l.Name,
+                                    OrderNumber = l.OrderNumber,
+                                    AttributeValues = l.AttributeValues.Select(a => new NetworkEntityAttributeValue
+                                    {
+                                        Attribute = a.Attribute,
+                                        Value = a.GetNormalizedValue(_neuralNetwork.NormalizationType)
+                                    }).ToList()
+                                })
+                                .ToList();
+                            _interfaceMediator.DrawDataIntoGrid(normalizedData, _neuralNetwork.InputAttributes, dgvNormalizedLearningData);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -252,38 +259,46 @@ namespace KohonenNeuroNet.Interface
         /// <param name="e"></param>
         private void Btn_LearnNetwork_Click(object sender, EventArgs e)
         {
-            int clastersCount = (int)tbClastersCount.Value;
-            int iterationsCount = (int)tbIterationsCount.Value;
-            if (clastersCount < 1)
+            try
             {
-                MessageBox.Show("Количество кластеров должно быть положительным", "Ошибка");
-                return;
-            }
-            if (iterationsCount < 1)
-            {
-                MessageBox.Show("Количество эпох обучения должно быть положительным", "Ошибка");
-                return;
-            }
-            if (_learningDataSet == null || _learningDataSet.Entities == null || _learningDataSet.Entities.Count == 0 ||
-                _learningDataSet.Attributes == null || _learningDataSet.Attributes.Count == 0)
-            {
-                MessageBox.Show("Выборка для обучения должна содержать хотя бы 1 сущность хотя бы с 1 параметром", "Ошибка");
-                return;
-            }
+                int clastersCount = (int)tbClastersCount.Value;
+                int iterationsCount = (int)tbIterationsCount.Value;
+                if (clastersCount < 1)
+                {
+                    MessageBox.Show("Количество кластеров должно быть положительным", "Ошибка");
+                    return;
+                }
+                if (iterationsCount < 1)
+                {
+                    MessageBox.Show("Количество эпох обучения должно быть положительным", "Ошибка");
+                    return;
+                }
+                if (_learningDataSet == null || _learningDataSet.Entities == null || _learningDataSet.Entities.Count == 0 ||
+                    _learningDataSet.Attributes == null || _learningDataSet.Attributes.Count == 0)
+                {
+                    MessageBox.Show("Выборка для обучения должна содержать хотя бы 1 сущность хотя бы с 1 параметром", "Ошибка");
+                    return;
+                }
 
-            using (new CursorHandler())
+                using (new CursorHandler())
+                {
+                    _neuralNetwork.Study(_learningDataSet, clastersCount, iterationsCount);
+
+                    // Сформировать пустые кластеры
+                    _clusters = _neuralNetwork.Neurons
+                        .Select(neuron => new NetworkCluster
+                        {
+                            Number = neuron.NeuronNumber
+                        })
+                        .ToList();
+
+                    SetSaveButtonEnabled();
+                    tabPanelMain.SelectedIndex = 2;
+                }
+            }
+            catch (Exception ex)
             {
-                _neuralNetwork.Study(_learningDataSet, clastersCount, iterationsCount);
-
-                // Сформировать пустые кластеры
-                _clusters = _neuralNetwork.Neurons
-                    .Select(neuron => new NetworkCluster
-                    {
-                        Number = neuron.NeuronNumber
-                    })
-                    .ToList();
-
-                tabPanelMain.SelectedIndex = 2;
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -294,24 +309,31 @@ namespace KohonenNeuroNet.Interface
         /// <param name="e"></param>
         private void Btn_ChooseTestingFile_Click(object sender, EventArgs e)
         {
-            using (var openFileDialog = new OpenFileDialog())
+            try
             {
-                openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
-                openFileDialog.InitialDirectory = CommonUtils.ResourcesDirectory;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                using (var openFileDialog = new OpenFileDialog())
                 {
-                    using (new CursorHandler())
+                    openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+                    openFileDialog.InitialDirectory = CommonUtils.ResourcesDirectory;
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        var excelFilePath = Path.Combine(CommonUtils.ResourcesDirectory, openFileDialog.FileName);
-                        tbTestingFile.Text = excelFilePath;
+                        using (new CursorHandler())
+                        {
+                            var excelFilePath = Path.Combine(CommonUtils.ResourcesDirectory, openFileDialog.FileName);
+                            tbTestingFile.Text = excelFilePath;
 
-                        var dataTable = _reader.ReadFromFile(excelFilePath);
-                        _testingDataSet = _converter.Convert(dataTable);
+                            var dataTable = _reader.ReadFromFile(excelFilePath);
+                            _testingDataSet = _converter.Convert(dataTable);
 
-                        _interfaceMediator.DrawDataIntoGrid(_testingDataSet.Entities, _neuralNetwork.InputAttributes, dgvTesingData);
+                            _interfaceMediator.DrawDataIntoGrid(_testingDataSet.Entities, _neuralNetwork.InputAttributes, dgvTesingData);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -320,41 +342,48 @@ namespace KohonenNeuroNet.Interface
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Btn_Test_Click(object sender, EventArgs e)
+        private void Btn_Test_Click(object sender = null, EventArgs e = null)
         {
-            if (_testingDataSet == null || _testingDataSet.Entities == null || _testingDataSet.Entities.Count == 0 ||
+            try
+            {
+                if (_testingDataSet == null || _testingDataSet.Entities == null || _testingDataSet.Entities.Count == 0 ||
                 _testingDataSet.Attributes == null || _testingDataSet.Attributes.Count == 0)
-            {
-                MessageBox.Show("Выборка для кластеризации должна содержать хотя бы 1 сущность хотя бы с 1 параметром", "Ошибка");
-                return;
+                {
+                    MessageBox.Show("Выборка для кластеризации должна содержать хотя бы 1 сущность хотя бы с 1 параметром", "Ошибка");
+                    return;
+                }
+
+                using (new CursorHandler())
+                {
+                    _clusters.ForEach(c => c.Entities.Clear());
+
+                    foreach (var data in _testingDataSet.Entities)
+                    {
+                        var attributeValues = data.AttributeValues
+                            .Select(attr => new InputAttributeValue
+                            {
+                                InputAttributeNumber = attr.Attribute.OrderNumber,
+                                Value = attr.GetNormalizedValue(_neuralNetwork.NormalizationType)
+                            })
+                            .ToList();
+
+                        var result = _neuralNetwork.GetNeuronWinner(attributeValues).NeuronNumber;
+                        _clusters.First(c => c.Number == result).Entities.Add(data);
+                    }
+
+                    // Рекурсивно оттестить сеть
+                    foreach (var cluster in _clusters)
+                    {
+                        TestDataRecursive(cluster);
+                    }
+
+                    _interfaceMediator.DrawClusters(_clusters, tvClusters);
+                    tabPanelMain.SelectedIndex = 3;
+                }
             }
-
-            using (new CursorHandler())
+            catch (Exception ex)
             {
-                _clusters.ForEach(c => c.Entities.Clear());
-
-                foreach (var data in _testingDataSet.Entities)
-                {
-                    var attributeValues = data.AttributeValues
-                        .Select(attr => new InputAttributeValue
-                        {
-                            InputAttributeNumber = attr.Attribute.OrderNumber,
-                            Value = attr.GetNormalizedValue(_neuralNetwork.NormalizationType)
-                        })
-                        .ToList();
-                    
-                    var result = _neuralNetwork.GetNeuronWinner(attributeValues).NeuronNumber;
-                    _clusters.First(c => c.Number == result).Entities.Add(data);
-                }
-
-                // Рекурсивно оттестить сеть
-                foreach (var cluster in _clusters)
-                {
-                    TestDataRecursive(cluster);
-                }
-
-                _interfaceMediator.DrawClusters(_clusters, tvClusters);
-                tabPanelMain.SelectedIndex = 3;
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -407,20 +436,32 @@ namespace KohonenNeuroNet.Interface
         /// <param name="e"></param>
         private void Btn_SaveNetwork_Click(object sender, EventArgs e)
         {
-            var network = _networkBase ?? new NetworkBase();
-            network.Name = tbNetworkName.Text;
-
-            var networkData = new NeuralNetworkData
+            try
             {
-                Network = network,
-                InputAttributes = _neuralNetwork.InputAttributes,
-                Neurons = _neuralNetwork.Neurons.Select(n => new NeuronData(n, null)).ToList(),
-                Weights = _neuralNetwork.Weights
-            };
-            _networkService.SaveNetworkData(networkData);
+                var network = _networkBase ?? new NetworkBase();
+                network.Name = tbNetworkName.Text;
 
-            DialogResult = DialogResult.OK;
-            Close();
+                if (string.IsNullOrEmpty(network.Name))
+                {
+                    throw new Exception("Введите название сети на вкладке \"Обучение\".");
+                }
+
+                var networkData = new NeuralNetworkData
+                {
+                    Network = network,
+                    InputAttributes = _neuralNetwork.InputAttributes,
+                    Neurons = _neuralNetwork.Neurons.Select(n => new NeuronData(n, null)).ToList(),
+                    Weights = _neuralNetwork.Weights
+                };
+                _networkService.SaveNetworkData(networkData);
+
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -430,23 +471,30 @@ namespace KohonenNeuroNet.Interface
         /// <param name="e"></param>
         private void Tv_Clusters_SelectionChanged(object sender, TreeViewEventArgs e)
         {
-            var isEdit = _networkBase.NetworkId > 0;
-
-            // Очистить таблицу с элементами кластера
-            _interfaceMediator.DrawDataIntoGrid(null, null, dgvClasterEntities);
-
-            if (tvClusters.SelectedNode.Tag == null || string.IsNullOrEmpty(tvClusters.SelectedNode.Tag.ToString()))
+            try
             {
-                btnEditCluster.Enabled = false;
-                return;
+                var isEdit = _networkBase.NetworkId > 0;
+
+                // Очистить таблицу с элементами кластера
+                _interfaceMediator.DrawDataIntoGrid(null, null, dgvClasterEntities);
+
+                if (tvClusters.SelectedNode.Tag == null || string.IsNullOrEmpty(tvClusters.SelectedNode.Tag.ToString()))
+                {
+                    btnEditCluster.Enabled = false;
+                    return;
+                }
+
+                var cluster = tvClusters.SelectedNode.Tag as NetworkCluster;
+
+                _interfaceMediator.DrawDataIntoGrid(cluster.Entities, _neuralNetwork.InputAttributes, dgvClasterEntities);
+
+                // Повторно кластеризовать можно только кластер, у которого есть данные
+                btnEditCluster.Enabled = tvClusters.SelectedNode.Level == 1 && isEdit && (cluster.Entities?.Count ?? 0) > 0;
             }
-
-            var cluster = tvClusters.SelectedNode.Tag as NetworkCluster;
-
-            _interfaceMediator.DrawDataIntoGrid(cluster.Entities, _neuralNetwork.InputAttributes, dgvClasterEntities);
-
-            // Повторно кластеризовать можно только кластер, у которого есть данные
-            btnEditCluster.Enabled = tvClusters.SelectedNode.Level == 1 && isEdit && (cluster.Entities?.Count ?? 0) > 0;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -490,6 +538,7 @@ namespace KohonenNeuroNet.Interface
                 {
                     // Обновить кластеры
                     InitializeExistingNetwork(_networkBase.NetworkId);
+                    Btn_Test_Click();
                 }
             }
             catch (Exception ex)
@@ -508,5 +557,10 @@ namespace KohonenNeuroNet.Interface
             _interfaceMediator.DrawNetworkWeights(_neuralNetwork, _neuralNetwork.InputAttributes, dgvWeights);
         }
 
+        private void SetSaveButtonEnabled()
+        {
+            var isEdit = (_networkBase?.NetworkId ?? 0) > 0;
+            btnSaveNetwork.Enabled = !isEdit && _clusters.Count > 0;
+        }
     }
 }

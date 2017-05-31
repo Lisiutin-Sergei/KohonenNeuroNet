@@ -116,6 +116,7 @@
     <Compile Include="Repositories\NeuronRepository.cs" />
     <Compile Include="Repositories\NetworkRepository.cs" />
     <Compile Include="UnitOfWork\DataContext.cs" />
+    <Compile Include="UnitOfWork\MsSqlUnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWorkFactory.cs" />
   </ItemGroup>
