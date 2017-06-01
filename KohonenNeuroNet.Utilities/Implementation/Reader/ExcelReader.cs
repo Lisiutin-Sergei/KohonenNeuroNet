@@ -41,6 +41,11 @@ namespace KohonenNeuroNet.Utilities.Implementation.Reader
 
                 for (int i = 1; i <= rowCount; i++)
                 {
+                    if (i > 1 && string.IsNullOrEmpty(xlRange.Cells[i, 1]?.Value2?.ToString()))
+                    {
+                        break;
+                    }
+
                     var dataTableRow = table.NewRow();
                     for (int j = 1; j <= colCount; j++)
                     {
