@@ -1,11 +1,12 @@
 ﻿using KohonenNeuroNet.NeuralNetwork.NormalizationType;
+using System;
 
 namespace KohonenNeuroNet.NeuralNetwork.NetworkData
 {
 	/// <summary>
 	/// Значение атрибута элемента данных (ячейка).
 	/// </summary>
-	public class NetworkEntityAttributeValue
+	public class NetworkEntityAttributeValue : ICloneable
     {
         /// <summary>
         /// Атрибут сущности.
@@ -26,5 +27,12 @@ namespace KohonenNeuroNet.NeuralNetwork.NetworkData
         {
             return normalizationType.GetAttributeValue(this);
         }
+
+		public object Clone()
+		{
+			var obj = this.MemberwiseClone() as NetworkEntityAttributeValue;
+			obj.Attribute = Attribute.Clone() as NetworkAttribute;
+			return obj;
+		}
     }
 }
