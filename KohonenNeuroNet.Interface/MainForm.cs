@@ -104,7 +104,10 @@ namespace KohonenNeuroNet.Interface
                 btnChooseLearningFile.Enabled = false;
                 btnChooseTestingFile.Enabled = false;
 
-                _neuralNetwork.InputAttributes = _learningDataSet.Attributes
+				RecalcMinMaxValues(_learningDataSet);
+				RecalcMinMaxValues(_testingDataSet);
+
+				_neuralNetwork.InputAttributes = _learningDataSet.Attributes
                     .Select(a => new InputAttributeBase
                     {
                         InputAttributeNumber = a.OrderNumber,
@@ -114,17 +117,17 @@ namespace KohonenNeuroNet.Interface
 
                 _interfaceMediator.DrawDataIntoGrid(_learningDataSet.Entities, _neuralNetwork.InputAttributes, dgvInputLearningData);
                 var normalizedData = _learningDataSet.Entities
-                            .Select(l => new NetworkDataEntity()
-                            {
-                                Name = l.Name,
-                                OrderNumber = l.OrderNumber,
-                                AttributeValues = l.AttributeValues.Select(a => new NetworkEntityAttributeValue
-                                {
-                                    Attribute = a.Attribute,
-                                    Value = a.GetNormalizedValue(_neuralNetwork.NormalizationType)
-                                }).ToList()
-                            })
-                            .ToList();
+                    .Select(l => new NetworkDataEntity()
+                    {
+                        Name = l.Name,
+                        OrderNumber = l.OrderNumber,
+                        AttributeValues = l.AttributeValues.Select(a => new NetworkEntityAttributeValue
+                        {
+                            Attribute = a.Attribute,
+                            Value = a.GetNormalizedValue(_neuralNetwork.NormalizationType)
+                        }).ToList()
+                    })
+                    .ToList();
                 _interfaceMediator.DrawDataIntoGrid(normalizedData, _neuralNetwork.InputAttributes, dgvNormalizedLearningData);
 
                 _interfaceMediator.DrawDataIntoGrid(_testingDataSet.Entities, _neuralNetwork.InputAttributes, dgvTesingData);
@@ -228,8 +231,11 @@ namespace KohonenNeuroNet.Interface
                                 .ToList();
 
                             _interfaceMediator.DrawDataIntoGrid(_learningDataSet.Entities, _neuralNetwork.InputAttributes, dgvInputLearningData);
+							
+							RecalcMinMaxValues(_learningDataSet);
+							RecalcMinMaxValues(_testingDataSet);
 
-                            var normalizedData = _learningDataSet.Entities
+							var normalizedData = _learningDataSet.Entities
                                 .Select(l => new NetworkDataEntity()
                                 {
                                     Name = l.Name,
@@ -409,7 +415,9 @@ namespace KohonenNeuroNet.Interface
                 currentNetworkData.InputAttributes,
                 currentNetworkData.Weights);
 
-            foreach (var data in cluster.Entities)
+			RecalcMinMaxValues(cluster.Entities);
+
+			foreach (var data in cluster.Entities)
             {
                 var attributeValues = data.AttributeValues
                     .Select(attr => new InputAttributeValue
@@ -533,7 +541,7 @@ namespace KohonenNeuroNet.Interface
                 var mainForm = IoC.Instance.Resolve<MainForm>(
                     new IoC.NinjectArgument("networkId", cluster.NetworkId),
                     new IoC.NinjectArgument("parentNeuronId", neuron.NeuronId),
-                    new IoC.NinjectArgument("parentNeuronDataSet", dataSet));
+                    new IoC.NinjectArgument("parentNeuronDataSet", dataSet.Clone() as NetworkDataSet));
                 if (mainForm.ShowDialog() == DialogResult.OK)
                 {
                     // Обновить кластеры
@@ -562,5 +570,50 @@ namespace KohonenNeuroNet.Interface
             var isEdit = (_networkBase?.NetworkId ?? 0) > 0;
             btnSaveNetwork.Enabled = !isEdit && _clusters.Count > 0;
         }
-    }
+
+		/// <summary>
+		/// Пересчитать минимальное и максимальое значение.
+		/// </summary>
+		/// <param name="dataSet">Данные.</param>
+		private void RecalcMinMaxValues(NetworkDataSet dataSet)
+		{
+			if (!(dataSet?.Attributes?.Any() ?? false))
+			{
+				return;
+			}
+
+			foreach (var attribute in dataSet.Attributes)
+			{
+				attribute.Max = dataSet.Entities
+					.Max(e => e.AttributeValues.First(a => a.Attribute.OrderNumber == attribute.OrderNumber).Value);
+				attribute.Min = dataSet.Entities
+					.Min(e => e.AttributeValues.First(a => a.Attribute.OrderNumber == attribute.OrderNumber).Value);
+				dataSet.Entities
+					.ForEach(entity => entity.AttributeValues.First(a => a.Attribute.OrderNumber == attribute.OrderNumber).Attribute = attribute);
+			}
+		}
+
+		/// <summary>
+		/// Пересчитать минимальное и максимальое значение.
+		/// </summary>
+		/// <param name="dataSet">Данные.</param>
+		private void RecalcMinMaxValues(List<NetworkDataEntity> dataSet)
+		{
+			if (!(dataSet?.Any() ?? false) || !(dataSet.First().AttributeValues?.Any() ?? false))
+			{
+				return;
+			}
+
+			foreach (var attribute in dataSet.First().AttributeValues.Select(e => e.Attribute))
+			{
+				attribute.Max = dataSet
+					.Max(e => e.AttributeValues.First(a => a.Attribute.OrderNumber == attribute.OrderNumber).Value);
+				attribute.Min = dataSet
+					.Min(e => e.AttributeValues.First(a => a.Attribute.OrderNumber == attribute.OrderNumber).Value);
+				dataSet
+					.ForEach(entity => entity.AttributeValues.First(a => a.Attribute.OrderNumber == attribute.OrderNumber).Attribute = attribute);
+			}
+		}
+
+	}
 }

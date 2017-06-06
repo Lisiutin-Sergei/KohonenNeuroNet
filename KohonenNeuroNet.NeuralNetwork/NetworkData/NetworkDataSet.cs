@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace KohonenNeuroNet.NeuralNetwork.NetworkData
 {
@@ -16,5 +17,20 @@ namespace KohonenNeuroNet.NeuralNetwork.NetworkData
         /// Список элементов данных (строк).
         /// </summary>
         public List<NetworkDataEntity> Entities { get; set; }
+
+		public object Clone()
+		{
+			var attributes = new List<NetworkAttribute>();
+			attributes.AddRange(Attributes.Select(a => a.Clone() as NetworkAttribute));
+
+			var entities = new List<NetworkDataEntity>();
+			entities.AddRange(Entities.Select(a => a.Clone() as NetworkDataEntity));
+
+			return new NetworkDataSet
+			{
+				Attributes = attributes,
+				Entities = entities
+			};
+		}
     }
 }

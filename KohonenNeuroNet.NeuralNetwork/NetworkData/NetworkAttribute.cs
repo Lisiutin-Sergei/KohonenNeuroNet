@@ -1,9 +1,11 @@
-﻿namespace KohonenNeuroNet.NeuralNetwork.NetworkData
+﻿using System;
+
+namespace KohonenNeuroNet.NeuralNetwork.NetworkData
 {
     /// <summary>
     /// Атрибут сущности (колонка).
     /// </summary>
-    public class NetworkAttribute
+    public class NetworkAttribute : ICloneable
     {
         /// <summary>
         /// Максимальное значение атрибута.
@@ -24,5 +26,10 @@
         /// Порядковый номер атрибута.
         /// </summary>
         public int OrderNumber { get; set; }
+
+		public object Clone()
+		{
+			return this.MemberwiseClone();
+		}
     }
 }
